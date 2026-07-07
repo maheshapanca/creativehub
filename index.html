@@ -1,0 +1,828 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta name="robots" content="noindex, nofollow" />
+<meta name="googlebot" content="noindex, nofollow" />
+<title>Creative Hub Dashboard</title>
+<style>
+:root{
+  --bg:#f4f6f8; --panel:#ffffff; --ink:#1c2330; --muted:#748091; --line:#e5e9ef; --soft:#f8fafc;
+  --radius:16px; --shadow:0 18px 46px rgba(20,28,42,.09); --dayw:76px; --labelw:264px;
+}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;background:var(--bg);color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+button,input,select,textarea{font:inherit} button{cursor:pointer}.app{max-width:1640px;margin:0 auto;padding:24px}.top{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;margin-bottom:18px}.brand{display:flex;align-items:center;gap:11px}.mark{width:42px;height:42px;border-radius:13px;display:grid;place-items:center;background:var(--ink);color:#fff;font-size:13px;font-weight:900;letter-spacing:-.7px}.brand h1{margin:0;font-size:18px;letter-spacing:-.45px}.brand p{margin:3px 0 0;color:var(--muted);font-size:12px}.top-actions,.controls,.view-switch{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.timeline-toolbar-controls{justify-content:flex-end}.timeline-nav{display:flex;align-items:center;gap:8px}.range-slot{display:flex;align-items:center;min-width:118px}.range-slot #rangeButtons{display:flex;align-items:center;gap:8px}.range-slot #rangeButtons.hidden{display:flex!important;visibility:hidden;pointer-events:none}.btn,.mini{border:1px solid var(--line);background:#fff;color:var(--ink);padding:10px 12px;border-radius:10px;font-size:12px;font-weight:850;transition:.15s}.btn:hover,.mini:hover{transform:translateY(-1px);box-shadow:0 7px 16px rgba(19,25,36,.08)}.btn.primary{background:var(--ink);color:#fff;border-color:var(--ink)}.btn.danger{border-color:#f0c2cd;color:#b1284e;background:#fff5f7}.mini{padding:7px 9px;font-size:11px}.mini.active{background:var(--ink);color:#fff;border-color:var(--ink)}.tabs{display:flex;gap:5px;padding:5px;background:#e9edf2;border-radius:13px;width:max-content;max-width:100%;overflow:auto;margin-bottom:18px}.tab{border:0;background:transparent;border-radius:9px;padding:9px 13px;color:#707b8a;font-size:12px;font-weight:850;white-space:nowrap}.tab.active{background:#fff;color:var(--ink);box-shadow:0 2px 8px rgba(20,25,35,.08)}.view{display:none}.view.active{display:block}.panel{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius)}
+.toolbar{display:grid;grid-template-columns:minmax(260px,1fr) auto;align-items:center;gap:14px;padding:15px 16px;border-bottom:1px solid var(--line)}.title h2{margin:0;font-size:15px}.title p{margin:4px 0 0;color:var(--muted);font-size:11px}.date-title{width:215px;min-width:215px;text-align:center;font-size:13px;font-weight:900}.field-help{display:block;margin-top:5px;color:#87919f;font-size:9.5px;font-weight:700;line-height:1.35}.filter,.inline-select,.input{border:1px solid var(--line);background:#fff;color:#334052;border-radius:9px;padding:8px 9px;font-size:11px;font-weight:750}.tip{font-size:11px;line-height:1.5;padding:0 16px 13px;color:var(--muted)}.tip b{color:var(--ink)}.footerhint{padding:12px 16px;border-top:1px solid var(--line);color:var(--muted);font-size:11px}
+/* Timeline */
+.timeline-shell{overflow:auto;border-top:1px solid var(--line)}.timeline{min-width:calc(var(--labelw) + (var(--days) * var(--dayw)));width:calc(var(--labelw) + (var(--days) * var(--dayw)));background:#fff}.timeline-head{height:54px;display:grid;grid-template-columns:var(--labelw) repeat(var(--days),var(--dayw));position:sticky;top:0;z-index:8}.corner{position:sticky;left:0;z-index:9;background:#fbfcfd;border-right:1px solid var(--line);border-bottom:1px solid var(--line);padding:12px 14px;color:#7a8595;text-transform:uppercase;letter-spacing:.08em;font-size:10px;font-weight:900}.dayhead{background:#fbfcfd;border-right:1px solid var(--line);border-bottom:1px solid var(--line);padding:8px 4px;text-align:center}.dayhead .dow{display:block;color:#8b94a1;font-size:9px;font-weight:850;text-transform:uppercase;letter-spacing:.07em}.dayhead .num{display:inline-grid;place-items:center;width:24px;height:24px;margin-top:3px;border-radius:50%;font-size:13px;font-weight:900}.dayhead.today{background:#f0f4ff}.dayhead.today .num{background:var(--ink);color:#fff}.brand-row{height:34px;display:flex;align-items:center;gap:8px;padding:0 14px;border-bottom:1px solid var(--line);background:#f6f8fa;color:#616c7b;font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:.09em}.brand-row i{width:8px;height:8px;border-radius:50%;display:block}.project-row{height:var(--rowh);display:grid;grid-template-columns:var(--labelw) repeat(var(--days),var(--dayw));position:relative}.project-label{position:sticky;left:0;z-index:4;border:0;border-right:1px solid var(--line);border-bottom:1px solid var(--line);background:#fff;text-align:left;padding:10px 13px}.project-label:hover{background:#fafcff}.project-name{display:flex;align-items:center;gap:7px;font-size:12px;font-weight:900;line-height:1.2}.project-swatch{width:7px;height:28px;flex:0 0 auto;border-radius:99px}.project-meta{margin-top:5px;color:var(--muted);font-size:10px;display:flex;align-items:center;gap:5px;flex-wrap:wrap}.type-tag,.stage-tag{padding:3px 6px;border-radius:999px;font-size:9px;font-weight:900;white-space:nowrap}.type-tag{background:#eef1f5;color:#637081}.stage-tag{background:#edf3ff;color:#3263c5}.daycell{border-right:1px solid var(--line);border-bottom:1px solid var(--line);background:#fff;position:relative}.daycell.weekend{background:#fcfcfd}.daycell:hover{background:#f5f8ff}.daycell .plus{opacity:0;position:absolute;inset:0;display:grid;place-items:center;border:0;background:transparent;color:#486fd0;font-size:19px}.daycell:hover .plus{opacity:1}.row-overlay{position:absolute;left:var(--labelw);top:0;width:calc(var(--days) * var(--dayw));height:100%;pointer-events:none}.milestone-bar{position:absolute;height:25px;border:0;border-radius:7px;padding:5px 7px;color:#fff;box-shadow:0 3px 9px rgba(20,30,45,.14);font-size:10px;font-weight:850;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;pointer-events:auto;text-align:left}.milestone-bar:hover{filter:brightness(.96);transform:translateY(-1px)}.milestone-bar .m-status{opacity:.72;font-size:8px;text-transform:uppercase;letter-spacing:.055em;margin-left:5px}.milestone-note{position:absolute;font-size:9.5px;line-height:1.2;color:#596575;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;pointer-events:none}.milestone-note:before{content:"•";margin-right:4px;font-weight:900}.empty-line{padding:27px 12px;color:#9aa3b0;font-size:11px;border-bottom:1px solid var(--line)}
+
+/* Year overview */
+.year-wrap{overflow:auto;border-top:1px solid var(--line)}
+.year-timeline{--monthw:138px;min-width:calc(var(--labelw) + (12 * var(--monthw)));width:calc(var(--labelw) + (12 * var(--monthw)));background:#fff}
+.year-quarter-head{display:grid;grid-template-columns:var(--labelw) repeat(4,calc(3 * var(--monthw)));height:31px;position:sticky;top:0;z-index:9}
+.year-month-head{display:grid;grid-template-columns:var(--labelw) repeat(12,var(--monthw));height:48px;position:sticky;top:31px;z-index:8}
+.year-corner{position:sticky;left:0;z-index:12;display:flex;align-items:center;padding:0 14px;background:#fbfcfd;border-right:1px solid var(--line);border-bottom:1px solid var(--line);color:#7a8595;text-transform:uppercase;letter-spacing:.08em;font-size:10px;font-weight:900}
+.quarter-head{padding:9px 12px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);font-size:10px;font-weight:950;letter-spacing:.08em;text-transform:uppercase;color:#657083}
+.quarter-head small{margin-left:6px;font-size:9px;font-weight:800;letter-spacing:0;text-transform:none;opacity:.7}
+.year-month{padding:10px 7px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);text-align:center;color:#687486;font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:.055em}
+.year-month.current-month{box-shadow:inset 0 -3px 0 var(--ink);color:var(--ink)}
+.q1{background:#f8fbf8}.q2{background:#f7faff}.q3{background:#fcfaf7}.q4{background:#faf8fc}
+.year-brand-row{height:34px;display:flex;align-items:center;gap:8px;padding:0 14px;border-bottom:1px solid var(--line);background:#f6f8fa;color:#616c7b;font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:.09em}.year-brand-row i{width:8px;height:8px;border-radius:50%;display:block}
+.year-umbrella-row{min-height:148px;display:grid;grid-template-columns:var(--labelw) repeat(12,var(--monthw));position:relative}
+.year-umbrella-label{position:sticky;left:0;z-index:6;border:0;border-right:1px solid var(--line);border-bottom:1px solid var(--line);background:#fff;text-align:left;padding:14px 13px;display:flex;align-items:flex-start;gap:9px}.year-umbrella-label:hover{background:#fafcff}
+.year-umbrella-label .project-swatch{height:42px}.year-umbrella-label b{display:block;font-size:12px;line-height:1.25}.year-umbrella-label small{display:block;margin-top:5px;color:var(--muted);font-size:10px;font-weight:750;line-height:1.35}
+.year-month-cell{border-right:1px solid var(--line);border-bottom:1px solid var(--line);position:relative;cursor:pointer;padding:7px 6px 25px}.year-month-cell:hover{filter:brightness(.985)}.year-month-cell .year-plus{opacity:0;position:absolute;right:6px;bottom:5px;display:grid;place-items:center;width:18px;height:18px;border:0;border-radius:5px;background:rgba(255,255,255,.74);color:#486fd0;font-size:16px;line-height:1}.year-month-cell:hover .year-plus{opacity:1}
+.year-plan-stack{display:flex;flex-direction:column;gap:5px}.year-plan-card{width:100%;border:0;border-left:3px solid var(--plan-color);border-radius:6px;background:#fff;color:#273242;padding:6px 6px 6px 7px;text-align:left;box-shadow:0 1px 0 rgba(30,41,59,.04)}.year-plan-card:hover{transform:translateY(-1px);box-shadow:0 5px 10px rgba(30,41,59,.09)}.year-plan-card b{display:block;font-size:9px;line-height:1.25;font-weight:950;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.year-plan-card span{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;margin-top:3px;color:#647083;font-size:8.6px;line-height:1.28}.year-plan-empty{color:#9da7b4;font-size:9px;line-height:1.35;padding:5px 1px}.year-note-count{font-size:9px;color:var(--muted);font-weight:750}
+
+/* Calendar */
+.calendar-wrap{overflow:auto}.calendar{min-width:1030px;padding:0 12px 13px}.calendar-weekdays,.calendar-grid{display:grid;grid-template-columns:repeat(7,minmax(145px,1fr))}.calendar-weekdays div{padding:10px 9px;color:#87919f;font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:.08em;border-bottom:1px solid var(--line)}.calendar-grid{border-top:1px solid var(--line);border-left:1px solid var(--line)}.cal-day{min-height:156px;padding:8px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);background:#fff;position:relative}.cal-day.outside{background:#fbfcfd}.cal-day.weekend{background:#fcfcfd}.cal-day.today{background:#f0f4ff}.cal-day:hover{background:#f8faff}.cal-top{display:flex;align-items:center;justify-content:space-between;gap:7px;margin-bottom:7px}.cal-num{display:grid;place-items:center;width:24px;height:24px;border-radius:50%;font-size:11px;font-weight:900}.today .cal-num{background:var(--ink);color:#fff}.cal-add{border:0;background:transparent;font-size:18px;color:#63718a;opacity:0}.cal-day:hover .cal-add{opacity:1}.cal-project-chip{width:100%;border:0;border-radius:8px;text-align:left;padding:7px 7px 6px;margin-bottom:5px;color:#fff;line-height:1.25;overflow:hidden;box-shadow:0 2px 7px rgba(24,37,57,.11)}.cal-project-chip:hover{filter:brightness(.96);transform:translateY(-1px)}.cal-project-title{display:block;font-size:10px;font-weight:950;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.cal-project-meta{display:block;margin-top:3px;font-size:8px;font-weight:850;opacity:.79;text-transform:uppercase;letter-spacing:.035em}.cal-project-milestones{display:-webkit-box;margin-top:4px;font-size:8.5px;font-weight:800;line-height:1.3;opacity:.94;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}.cal-more{font-size:9px;color:#657081;font-weight:800;padding:2px 3px}.view-mode.hidden{display:none!important}
+/* Table */
+.section-head{display:flex;align-items:end;justify-content:space-between;gap:14px;margin:2px 0 14px}.section-head h2{margin:0;font-size:16px}.section-head p{margin:4px 0 0;color:var(--muted);font-size:12px}.search{width:275px;max-width:100%;border:1px solid var(--line);border-radius:10px;background:#fff;padding:10px 11px;font-size:12px}.table-wrap{overflow:auto}.projects-table{width:100%;min-width:1240px;border-collapse:collapse}.projects-table th{background:#fbfcfd;color:#7d8795;text-transform:uppercase;letter-spacing:.08em;font-size:10px;font-weight:900;text-align:left;padding:12px 13px;border-bottom:1px solid var(--line)}.projects-table td{font-size:12px;padding:12px 13px;border-bottom:1px solid var(--line);vertical-align:middle}.projects-table tr:hover td{background:#fbfcff}.projects-table tr.done-row td{background:#f3f4f5;color:#858d98}.projects-table tr.done-row:hover td{background:#eff1f2}.name-cell{display:flex;align-items:center;gap:9px;font-weight:900}.table-color{width:8px;height:31px;border-radius:99px;flex:0 0 auto}.muted{color:var(--muted);font-size:10px;margin-top:3px}.done-row .muted{color:#999fa7}.status-select,.progress-select{font-size:11px;font-weight:850;border:1px solid var(--line);border-radius:8px;background:#fff;padding:6px 7px;color:inherit}.quick-status{min-width:112px;font-size:11px;font-weight:850;border:1px solid var(--line);border-radius:8px;background:#fff;padding:7px 8px;color:#354152}.quick-status.review{border-color:#d8c9ff;background:#f7f4ff;color:#6550b8}.quick-status.done{border-color:#d8ddd9;background:#edf0ee;color:#6f7880}.done-row .quick-status{background:#e6e8eb;border-color:#e6e8eb;color:#7a838e}.status-select{border:0;padding-left:0;background:transparent}.done-row .progress-select{background:#e6e8eb;border-color:#e6e8eb;color:#7a838e}.link{font-size:11px;font-weight:850;color:#2762d8;text-decoration:none}.done-row .link{color:#848c96}.empty{padding:42px 16px;text-align:center;color:var(--muted);font-size:12px}
+/* Detail */
+.detail-layout{display:grid;grid-template-columns:270px 1fr;gap:16px}.picker{padding:13px;height:max-content;position:sticky;top:16px}.picker h3{font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:#808a98;margin:3px 0 11px}.picker-search{width:100%;border:1px solid var(--line);border-radius:9px;padding:9px;font-size:11px}.picker-brand{margin:15px 0 5px;font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:.08em;color:#88929f}.picker-item{width:100%;border:0;background:transparent;text-align:left;padding:10px;border-radius:9px;display:flex;align-items:flex-start;gap:8px}.picker-item:hover{background:#f4f6fa}.picker-item.active{background:var(--ink);color:#fff}.picker-color{width:5px;height:30px;border-radius:99px;flex:0 0 auto}.picker-item b{display:block;font-size:12px}.picker-item small{display:block;opacity:.68;font-size:10px;margin-top:3px}.detail-main{display:grid;gap:16px}.detail-card{padding:18px}.project-header{display:flex;align-items:flex-start;justify-content:space-between;gap:15px}.project-header h2{font-size:23px;letter-spacing:-.55px;margin:7px 0 3px}.subline{font-size:11px;color:var(--muted)}.detail-actions{display:flex;gap:8px;flex-wrap:wrap}.quick-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:17px}.quick{border:1px solid var(--line);background:#fbfcfd;border-radius:11px;padding:11px}.quick span{display:block;color:var(--muted);font-size:10px}.quick b{display:block;font-size:14px;margin-top:4px}.note-area{width:100%;min-height:88px;resize:vertical;border:1px solid var(--line);border-radius:10px;padding:10px;font-size:12px;line-height:1.5;color:var(--ink)}.subheading{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:10px}.subheading h3{font-size:13px;margin:0}.journey{display:grid;gap:8px}.journey-item{width:100%;border:1px solid var(--line);background:#fff;text-align:left;cursor:pointer;border-radius:11px;padding:11px;display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center}.journey-item:hover{background:#fbfcff}.journey-item b{font-size:12px}.journey-item p{margin:4px 0 0;color:var(--muted);font-size:11px;line-height:1.38}.journey-item .pic-note{color:#50657a;font-weight:800}.journey-item .pic-note span{font-size:9px;text-transform:uppercase;letter-spacing:.06em;margin-right:5px;color:#708096}.journey-item time{font-size:10px;color:var(--muted);white-space:nowrap}
+.milestone-item{cursor:default}
+.milestone-item:hover{background:#fbfcff}
+.milestone-edit-btn{border:1px solid var(--line);background:#fff;border-radius:8px;padding:7px 9px;font-size:10px;font-weight:850;color:#455267;white-space:nowrap}
+.milestone-edit-btn:hover{background:#f1f4f8}
+.milestone-drive-link{display:inline-flex;align-items:center;gap:4px;margin-top:7px;color:#2563a8;font-size:10px;font-weight:850;text-decoration:none}
+.milestone-drive-link:hover{text-decoration:underline}
+.milestone-no-link{margin-top:7px!important;color:#9aa3ae!important;font-size:10px!important}
+.mile-dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px}.links-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.link-edit{border:1px solid var(--line);background:#fbfcfd;border-radius:11px;padding:11px}.link-edit b{display:block;font-size:11px;margin-bottom:7px}.link-row{display:flex;align-items:center;gap:7px}.link-input{min-width:0;width:100%;border:1px solid var(--line);border-radius:8px;padding:8px;font-size:10px}.save-mini{border:0;background:var(--ink);color:#fff;border-radius:8px;padding:8px 9px;font-size:10px;font-weight:850}.remove-link{border:0;background:transparent;color:#8a93a0;font-size:16px;padding:0 1px}.remove-link:hover{color:#b82d4c}.add-link{margin-top:11px}
+/* Modals */
+.project-milestone-planner{border:1px solid var(--line);border-radius:12px;background:#fbfcfe;overflow:hidden}
+.project-milestone-planner-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;padding:12px;border-bottom:1px solid var(--line)}
+.project-milestone-planner-head b{font-size:12px}.project-milestone-planner-head p{margin:3px 0 0;color:var(--muted);font-size:10px;line-height:1.45}
+.project-milestone-rows{display:grid;gap:7px;padding:10px}
+.project-milestone-row{display:grid;grid-template-columns:minmax(0,1fr) 138px 122px 34px;gap:8px;align-items:center}
+.project-milestone-row input{width:100%;border:1px solid var(--line);border-radius:8px;padding:9px;font-size:11px;background:#fff;color:var(--ink)}
+.project-milestone-row .remove-planned-milestone{height:34px;border:1px solid #f1cdd6;border-radius:8px;background:#fff6f8;color:#bd3154;font-weight:900}
+.project-milestone-empty{padding:4px 12px 12px;color:#8a95a4;font-size:10px}
+.project-deadline-auto{padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:#f8fafc;color:#667385;font-size:11px;line-height:1.45}
+.project-deadline-auto b{color:var(--ink)}
+.modal{position:fixed;inset:0;z-index:40;display:none;align-items:center;justify-content:center;padding:18px;background:rgba(22,28,39,.43)}.modal.open{display:flex}.modal-box{width:min(730px,100%);max-height:calc(100vh - 36px);overflow:auto;background:#fff;border-radius:18px;box-shadow:var(--shadow)}.modal-head{display:flex;justify-content:space-between;align-items:center;padding:16px 18px;border-bottom:1px solid var(--line)}.modal-head h2{font-size:15px;margin:0}.close{border:0;background:transparent;color:#778291;font-size:20px}.form{padding:18px;display:grid;gap:12px}.two{display:grid;grid-template-columns:1fr 1fr;gap:11px}.field.span-2{grid-column:span 2}.field label{display:block;margin-bottom:6px;color:#748093;font-size:10px;text-transform:uppercase;letter-spacing:.07em;font-weight:900}.field input,.field select,.field textarea{width:100%;border:1px solid var(--line);border-radius:9px;background:#fff;color:var(--ink);padding:10px;font-size:12px}.field textarea{resize:vertical;min-height:78px}.modal-actions{display:flex;align-items:center;gap:8px;padding:0 18px 18px}.hidden{display:none!important}.toast{position:fixed;z-index:60;left:50%;bottom:20px;transform:translateX(-50%) translateY(90px);background:var(--ink);color:#fff;border-radius:10px;padding:10px 13px;font-size:11px;font-weight:750;transition:.25s}.toast.show{transform:translateX(-50%) translateY(0)}.app-footer{text-align:center;color:#9aa3af;font-size:11px;padding:18px 0 2px}
+@media(max-width:860px){.app{padding:16px}.top{flex-direction:column}.detail-layout{grid-template-columns:1fr}.picker{position:static}.quick-grid,.links-grid,.two{grid-template-columns:1fr}.field.span-2{grid-column:auto}.project-header{flex-direction:column}.toolbar{grid-template-columns:1fr;align-items:flex-start}.timeline-toolbar-controls{justify-content:flex-start}.date-title{width:auto;min-width:140px}.range-slot{display:none}.section-head{align-items:flex-start;flex-direction:column}.search{width:100%}}
+
+/* Umbrella management + printable project report */
+.umbrella-inline{display:flex;align-items:center;justify-content:space-between;gap:8px}.umbrella-inline .mini{padding:4px 7px;font-size:9px}.umbrella-list{display:grid;gap:8px}.umbrella-row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 11px;border:1px solid var(--line);border-radius:10px;background:#fbfcfd}.umbrella-row strong{display:flex;align-items:center;gap:8px;font-size:12px}.umbrella-dot{width:10px;height:10px;border-radius:50%;display:inline-block}.umbrella-row small{color:var(--muted);font-weight:750}.umbrella-group td{padding:10px 13px!important;background:#f6f8fa!important;color:#4b5869!important;font-size:10px!important;font-weight:950!important;text-transform:uppercase;letter-spacing:.08em}.umbrella-group span{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:7px}.umbrella-group small{margin-left:7px;color:#8a95a4;font-size:9px;font-weight:850;letter-spacing:0;text-transform:none}.report-note{margin-top:7px;color:#758294;font-size:10px}.print-only{display:none}
+@media print{
+  @page{size:A4;margin:14mm}
+  html,body{background:#fff!important;color:#18202c!important}
+  .top,.tabs,#timelineView,#projectsView,.picker,.app-footer,.toast,.modal{display:none!important}
+  .app{max-width:none!important;padding:0!important}
+  #detailView{display:block!important}
+  #detailContent{display:block!important}
+  .detail-layout,.detail-main{display:block!important}
+  .panel{box-shadow:none!important;border:1px solid #d9dee5!important;border-radius:10px!important;break-inside:avoid!important;margin:0 0 10px!important}
+  .detail-actions,.save-mini,.remove-link,.subheading button{display:none!important}
+  .project-header{padding-bottom:2px!important}.quick-grid{grid-template-columns:repeat(4,1fr)!important}.links-grid{grid-template-columns:1fr 1fr!important}
+  .link-input{border:0!important;padding:0!important;background:transparent!important;color:#3a4657!important;font-size:10px!important}
+  .print-only{display:block!important}.screen-only{display:none!important}
+}
+
+
+/* Notes */
+.notes-layout{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:16px;align-items:start}.notes-list{padding:0}.notes-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:15px 16px;border-bottom:1px solid var(--line)}.notes-head h2{margin:0;font-size:15px}.notes-head p{margin:4px 0 0;color:var(--muted);font-size:11px}.notes-table-wrap{overflow:auto}.notes-table{width:100%;min-width:790px;border-collapse:collapse}.notes-table th{padding:10px 12px;background:#f7f9fb;border-bottom:1px solid var(--line);color:#7b8695;text-align:left;text-transform:uppercase;letter-spacing:.07em;font-size:9px;font-weight:950;white-space:nowrap}.notes-table td{padding:11px 12px;border-bottom:1px solid var(--line);font-size:11px;vertical-align:top;color:#3f4d5d}.notes-table tr:last-child td{border-bottom:0}.notes-table tr:hover td{background:#fbfcfe}.note-date{color:#7d8793;font-size:10px;white-space:nowrap}.note-title{font-weight:900;color:var(--ink);min-width:150px}.note-body{max-width:360px;line-height:1.45;white-space:pre-wrap;word-break:break-word}.note-body-preview{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}.note-body-details{margin:0}.note-body-details summary{cursor:pointer;list-style:none;color:#4e5c6b}.note-body-details summary::-webkit-details-marker{display:none}.note-body-details summary:after{content:'Show more';display:inline-block;margin-left:5px;color:#63748a;font-size:9px;font-weight:900;white-space:nowrap}.note-body-details[open] summary:after{content:'Show less'}.note-body-details[open] summary .note-body-preview{display:block;overflow:visible}.note-brand-chip{display:inline-flex;align-items:center;gap:5px;padding:4px 7px;border-radius:999px;background:#f0f3f7;color:#647083;font-size:9px;font-weight:900;white-space:nowrap}.note-brand-dot{width:6px;height:6px;border-radius:99px}.note-link{color:#2c64cf;font-weight:850;text-decoration:none;white-space:nowrap}.note-link:hover{text-decoration:underline}.note-actions{display:flex;gap:5px;white-space:nowrap}.note-actions button{border:0;background:transparent;color:#7d8794;font-size:10px;font-weight:850;padding:4px}.note-actions button:hover{color:var(--ink)}.note-actions .delete-note:hover{color:#b02848}.notes-compose{padding:16px;position:sticky;top:16px}.notes-compose h2{font-size:15px;margin:0}.notes-compose p{margin:5px 0 14px;color:var(--muted);font-size:11px;line-height:1.45}.notes-compose .field{margin-bottom:11px}.notes-compose textarea{min-height:160px}.notes-head-controls{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.notes-head-controls .filter{min-width:154px}.note-date-input{width:100%}@media(max-width:720px){.notes-head{align-items:flex-start;flex-direction:column}.notes-head-controls{width:100%}.notes-head-controls .filter{flex:1;min-width:0}}
+.note-compose-actions{display:flex;align-items:center;gap:8px;margin-top:4px}.notes-empty{padding:42px 16px;text-align:center;color:var(--muted);font-size:12px}.done-folder td{padding:0!important;background:#eef0f2!important}.done-folder button{display:flex;align-items:center;gap:8px;width:100%;border:0;background:transparent;padding:12px 13px;color:#727b87;font-size:10px;font-weight:950;text-transform:uppercase;letter-spacing:.08em;text-align:left}.done-folder button:hover{background:#e8ebee}.done-folder .done-count{margin-left:2px;font-size:9px;font-weight:850;letter-spacing:0;text-transform:none;color:#9098a2}.picker-done{margin-top:14px;border-top:1px solid var(--line);padding-top:10px}.picker-done summary{cursor:pointer;list-style:none;color:#808a98;font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:.08em;padding:6px 4px}.picker-done summary::-webkit-details-marker{display:none}.picker-done summary:before{content:'›';font-size:16px;line-height:0;margin-right:6px}.picker-done[open] summary:before{content:'⌄'}.picker-item.done-item{background:#f1f2f3;color:#7f8791}.picker-item.done-item:hover{background:#eceef0}.picker-item.done-item.active{background:#79818b;color:#fff}.done-project{border-color:#e3e6e8!important;background:#fafafa!important}.done-project .quick,.done-project .journey-item,.done-project .link-edit{background:#f3f4f5;border-color:#e3e6e8;color:#7e8791}.done-project .subline,.done-project .journey-item p,.done-project .journey-item time{color:#9098a1}.done-project .mile-dot{background:#a8afb7!important}
+@media(max-width:900px){.notes-layout{grid-template-columns:1fr}.notes-compose{position:static}.detail-layout{grid-template-columns:1fr}.picker{position:static}.quick-grid{grid-template-columns:1fr 1fr}.links-grid{grid-template-columns:1fr}}
+
+
+/* Home dashboard */
+.home-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:16px}.home-hero{padding:20px}.home-hero h2{margin:0;font-size:19px;letter-spacing:-.35px}.home-hero p{margin:6px 0 0;color:var(--muted);font-size:12px}.home-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:16px}.home-stat{border:1px solid var(--line);border-radius:12px;padding:13px;background:#fff}.home-stat span{display:block;color:var(--muted);font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.06em}.home-stat b{display:block;font-size:22px;margin-top:5px;letter-spacing:-.6px}.home-section{padding:17px}.home-section h3{margin:0;font-size:13px}.home-section .sub{margin:4px 0 13px;color:var(--muted);font-size:11px}.review-list,.deadline-list{display:grid;gap:8px}.review-row,.deadline-row{width:100%;border:1px solid var(--line);background:#fff;border-radius:11px;padding:10px 11px;text-align:left;display:flex;align-items:center;justify-content:space-between;gap:10px}.review-row:hover,.deadline-row:hover{background:#fafcff}.review-row b,.deadline-row b{display:block;font-size:11px}.review-row small,.deadline-row small{display:block;color:var(--muted);font-size:10px;margin-top:3px}.queue-badge{padding:4px 7px;border-radius:99px;background:#fff4d8;color:#986500;font-size:9px;font-weight:900;white-space:nowrap}.heatmap{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}.heat-day{min-height:54px;border:1px solid var(--line);border-radius:9px;padding:7px;text-align:left;background:#fff}.heat-day .h-num{display:block;font-size:10px;font-weight:900}.heat-day .h-count{display:block;margin-top:8px;font-size:9px;color:#637083;font-weight:800}.heat-1{background:#fff9db;border-color:#f6e8a5}.heat-2{background:#fff0cb;border-color:#f5d687}.heat-3{background:#ffe0d4;border-color:#f6b39e}.heat-4{background:#ffd4d4;border-color:#ef9b9b}.home-archive{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:14px;border:1px dashed #cfd7e3;border-radius:12px;background:#fbfcfd}.home-archive b{font-size:18px}
+.backup-status{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:12px;padding:10px 12px;border:1px dashed #ced7e2;border-radius:10px;background:#fbfcfd;color:#687486;font-size:10px;font-weight:750}
+.backup-status b{color:var(--ink)}.backup-status.warning{border-color:#edcf8d;background:#fff9e8;color:#9a6a12}.backup-status.warning b{color:#7c5411}
+.deadline-badge{display:inline-flex;align-items:center;margin-top:5px;padding:3px 6px;border-radius:99px;background:#f1f3f5;color:#77818e;font-size:9px;font-weight:900;white-space:nowrap}.deadline-badge.soon{background:#fff4d8;color:#946100}.deadline-badge.overdue{background:#fff0f2;color:#b22947}.deadline-badge.done{background:#edf1ee;color:#758078}
+.milestone-bar.soon{box-shadow:0 0 0 2px #e7aa36,0 3px 9px rgba(20,30,45,.14)}.milestone-bar.overdue{box-shadow:0 0 0 2px #dc5a6d,0 3px 9px rgba(20,30,45,.14)}
+.milestone-info{position:absolute;font-size:9px;line-height:1.25;color:#596575;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;pointer-events:none}.milestone-info:before{content:"•";margin-right:4px;font-weight:900}.milestone-info.pic{font-weight:800}.milestone-info.warning{font-weight:900}
+.milestone-order-actions{display:inline-flex;gap:4px}.milestone-order-btn{width:28px;height:28px;border:1px solid var(--line);border-radius:8px;background:#fff;color:#607084;font-size:14px;font-weight:900}.milestone-order-btn:hover:not(:disabled){background:#eef3ff;color:#295ba7}.milestone-order-btn:disabled{opacity:.35;cursor:not-allowed}
+.dependency-flow{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin:12px 0 2px}.dep-step{padding:6px 8px;border-radius:8px;background:#eef2f6;color:#667285;font-size:10px;font-weight:850}.dep-step.done{background:#e8f4ec;color:#2c7a49}.dep-step.current{background:#edf3ff;color:#2c5eaa}.dep-step.locked{background:#f2f3f5;color:#939ca7}.dep-arrow{color:#a8b0bb;font-weight:900}.dep-caption{font-size:10px;color:var(--muted);margin:0}.home-empty{font-size:11px;color:var(--muted);padding:14px;border:1px dashed var(--line);border-radius:10px}
+@media(max-width:980px){.home-grid{grid-template-columns:1fr}.home-stats{grid-template-columns:repeat(2,1fr)}}
+
+
+/* Dark mode */
+body[data-theme="dark"]{
+  --bg:#10141c; --panel:#171d27; --ink:#eef3fa; --muted:#9ba7b7; --line:#2a3341; --soft:#111722;
+  color-scheme:dark;
+}
+body[data-theme="dark"] .mark{background:#eef3fa;color:#10141c}
+body[data-theme="dark"] .btn,body[data-theme="dark"] .mini,body[data-theme="dark"] .filter,body[data-theme="dark"] .inline-select,body[data-theme="dark"] .input,body[data-theme="dark"] .search,body[data-theme="dark"] .picker-search,body[data-theme="dark"] .field input,body[data-theme="dark"] .field select,body[data-theme="dark"] .field textarea,body[data-theme="dark"] .note-area,body[data-theme="dark"] .link-input,body[data-theme="dark"] .status-select,body[data-theme="dark"] .progress-select,body[data-theme="dark"] .quick-status{background:#131923;color:var(--ink);border-color:var(--line)}
+body[data-theme="dark"] .btn.primary,body[data-theme="dark"] .mini.active{background:#eef3fa;color:#10141c;border-color:#eef3fa}
+body[data-theme="dark"] .btn.danger{background:#2a1720;color:#ff9bb0;border-color:#5b2638}
+body[data-theme="dark"] .tabs{background:#131923}
+body[data-theme="dark"] .tab{color:#8f9bad}
+body[data-theme="dark"] .tab.active{background:#202838;color:var(--ink);box-shadow:none}
+body[data-theme="dark"] .panel,body[data-theme="dark"] .modal-box{background:var(--panel);border-color:var(--line)}
+body[data-theme="dark"] .toolbar,body[data-theme="dark"] .modal-head,body[data-theme="dark"] .footerhint,body[data-theme="dark"] .notes-head{border-color:var(--line)}
+body[data-theme="dark"] .corner,body[data-theme="dark"] .dayhead,body[data-theme="dark"] .year-corner,body[data-theme="dark"] .year-month,body[data-theme="dark"] .quarter-head,body[data-theme="dark"] .projects-table th,body[data-theme="dark"] .notes-table th{background:#151b25;color:#9ba7b7;border-color:var(--line)}
+body[data-theme="dark"] .timeline,body[data-theme="dark"] .year-timeline,body[data-theme="dark"] .project-label,body[data-theme="dark"] .daycell,body[data-theme="dark"] .cal-day,body[data-theme="dark"] .year-month-cell,body[data-theme="dark"] .calendar,body[data-theme="dark"] .year-umbrella-label{background:#171d27;border-color:var(--line)}
+body[data-theme="dark"] .project-label:hover,body[data-theme="dark"] .daycell:hover,body[data-theme="dark"] .cal-day:hover,body[data-theme="dark"] .year-umbrella-label:hover,body[data-theme="dark"] .projects-table tr:hover td,body[data-theme="dark"] .notes-table tr:hover td{background:#1d2634}
+body[data-theme="dark"] .daycell.weekend,body[data-theme="dark"] .cal-day.weekend,body[data-theme="dark"] .cal-day.outside{background:#141a24}
+body[data-theme="dark"] .dayhead.today,body[data-theme="dark"] .cal-day.today{background:#1d2940}
+body[data-theme="dark"] .today .cal-num,body[data-theme="dark"] .dayhead.today .num{background:#eef3fa;color:#10141c}
+body[data-theme="dark"] .brand-row,body[data-theme="dark"] .year-brand-row,body[data-theme="dark"] .umbrella-group td,body[data-theme="dark"] .done-folder td{background:#131923!important;color:#a8b3c2!important;border-color:var(--line)}
+body[data-theme="dark"] .quick,body[data-theme="dark"] .home-stat,body[data-theme="dark"] .review-row,body[data-theme="dark"] .deadline-row,body[data-theme="dark"] .journey-item,body[data-theme="dark"] .link-edit,body[data-theme="dark"] .year-plan-card,body[data-theme="dark"] .umbrella-row,body[data-theme="dark"] .project-milestone-planner,body[data-theme="dark"] .project-deadline-auto,body[data-theme="dark"] .backup-status,body[data-theme="dark"] .home-archive,body[data-theme="dark"] .heat-day{background:#131923;border-color:var(--line);color:var(--ink)}
+body[data-theme="dark"] .review-row:hover,body[data-theme="dark"] .deadline-row:hover,body[data-theme="dark"] .journey-item:hover{background:#1d2634}
+body[data-theme="dark"] .projects-table td,body[data-theme="dark"] .notes-table td,body[data-theme="dark"] .calendar-grid,body[data-theme="dark"] .calendar-weekdays div{border-color:var(--line)}
+body[data-theme="dark"] .muted,body[data-theme="dark"] .subline,body[data-theme="dark"] .project-meta,body[data-theme="dark"] .tip,body[data-theme="dark"] .footerhint,body[data-theme="dark"] .note-date,body[data-theme="dark"] .note-body,body[data-theme="dark"] .year-plan-card span{color:var(--muted)}
+body[data-theme="dark"] .type-tag{background:#222b38;color:#b6c0ce}
+body[data-theme="dark"] .stage-tag{background:#1f2d47;color:#8db4ff}
+body[data-theme="dark"] .note-brand-chip,body[data-theme="dark"] .deadline-badge{background:#222b38;color:#b6c0ce}
+body[data-theme="dark"] .done-row td,body[data-theme="dark"] .done-project,body[data-theme="dark"] .done-project .quick,body[data-theme="dark"] .done-project .journey-item,body[data-theme="dark"] .done-project .link-edit{background:#151a22!important;color:#8f9bad;border-color:#252d39!important}
+body[data-theme="dark"] .modal{background:rgba(0,0,0,.62)}
+body[data-theme="dark"] input[type="color"]{background:#131923!important;border-color:var(--line)!important}
+body[data-theme="dark"] #themeToggleBtn{background:#23314a;color:#dbe8ff;border-color:#344866}
+
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="top">
+    <div class="brand"><div class="mark">CH</div><div><h1>Creative Hub Dashboard</h1><p>Project-first workspace. Milestone menjadi sumber status untuk Timeline, Home, dan All Projects.</p></div></div>
+    <div class="top-actions"><button class="btn" id="exportBtn">Export Backup</button><label class="btn">Import JSON<input id="importInput" type="file" accept="application/json" hidden></label><button class="btn" id="themeToggleBtn" type="button">Dark mode</button><button class="btn" id="manageUmbrellasBtn">Umbrella brands</button><button class="btn primary" id="newProjectBtn">+ New project</button></div>
+  </header>
+
+  <nav class="tabs"><button class="tab active" data-view="homeView">Home</button><button class="tab" data-view="timelineView">Project Timeline</button><button class="tab" data-view="projectsView">All Projects</button><button class="tab" data-view="detailView">Project Detail</button><button class="tab" data-view="notesView">Notes</button></nav>
+
+  <main id="homeView" class="view active">
+  <section class="panel home-hero"><h2>Creative Hub Home</h2><p>Ringkasan kerja harian: review yang menunggu, kepadatan deadline, dan project yang paling dekat.</p><div id="homeStats" class="home-stats"></div><div id="backupStatus" class="backup-status"></div></section>
+  <div class="home-grid" style="margin-top:16px">
+    <section class="panel home-section"><h3>Needs Your Review</h3><p class="sub">Milestone yang sedang berstatus Review.</p><div id="reviewQueue" class="review-list"></div></section>
+    <section class="panel home-section"><h3>Upcoming Deadlines</h3><p class="sub">Milestone terdekat dari hari ini.</p><div id="upcomingDeadlines" class="deadline-list"></div></section>
+  </div>
+  <div class="home-grid" style="margin-top:16px">
+    <section class="panel home-section"><h3>Deadline Heatmap</h3><p class="sub">14 hari ke depan. Semakin gelap, semakin banyak milestone jatuh tempo.</p><div id="deadlineHeatmap" class="heatmap"></div></section>
+    <section class="panel home-section"><h3>Archive</h3><p class="sub">Project 100% tetap tersimpan di Done.</p><div id="archiveSnapshot" class="home-archive"></div></section>
+  </div>
+</main>
+<main id="timelineView" class="view">
+    <section class="panel">
+      <div class="toolbar">
+        <div class="title"><h2>Project Timeline</h2><p>Milestone project ditambahkan dari sini atau Project Detail. Semua status selalu membaca data yang sama.</p></div>
+        <div class="controls timeline-toolbar-controls">
+          <div class="view-switch"><button class="mini active" data-timeline-view="timeline">Timeline</button><button class="mini" data-timeline-view="calendar">Full calendar</button><button class="mini" data-timeline-view="year">Year overview</button></div>
+          <div class="timeline-nav"><button class="mini" id="prevBtn">←</button><div class="date-title" id="rangeTitle"></div><button class="mini" id="nextBtn">→</button><button class="mini" id="todayBtn">Today</button></div>
+          <span class="range-slot"><span id="rangeButtons"><button class="mini active" data-range="14">2 weeks</button><button class="mini" data-range="28">4 weeks</button></span></span>
+          <select class="filter" id="brandFilter"><option value="all">All umbrella brands</option></select>
+        </div>
+      </div>
+      <div class="tip" id="timelineTip"><b>Timeline view:</b> klik ruang kosong di baris project untuk tambah milestone. Klik milestone untuk edit tanggal, status, catatan, atau link Drive.</div>
+      <div id="timelineMode" class="view-mode"><div class="timeline-shell"><div id="timeline" class="timeline"></div></div></div>
+      <div id="calendarMode" class="view-mode hidden"><div class="calendar-wrap"><div id="calendar" class="calendar"></div></div></div>
+      <div id="yearMode" class="view-mode hidden"><div class="year-wrap"><div id="yearTimeline" class="year-timeline"></div></div></div>
+      <div class="footerhint">Milestone yang ditambah dari timeline otomatis masuk ke <b>Project Detail</b>, lalu memperbarui current milestone dan progress di <b>All Projects</b> dan Home. <b>Year Overview</b> adalah planning canvas terpisah per umbrella brand: klik bulan untuk menambahkan catatan tahunan.</div>
+    </section>
+  </main>
+
+  <main id="projectsView" class="view">
+    <div class="section-head"><div><h2>All Projects</h2><p>Update status milestone aktif langsung dari tabel. Semua perubahan otomatis tersinkron ke Timeline, Project Detail, Home, dan Done folder.</p></div><input class="search" id="projectSearch" placeholder="Search project, campaign, event, umbrella..." /></div>
+    <section class="panel table-wrap"><table class="projects-table"><thead><tr><th>Project</th><th>Umbrella</th><th>Type</th><th>Current Milestone</th><th>Quick Update</th><th>Progress</th><th>Deadline</th><th>Milestone Link</th><th></th></tr></thead><tbody id="projectsBody"></tbody></table></section>
+  </main>
+
+  <main id="detailView" class="view">
+    <div class="detail-layout"><aside class="panel picker"><h3>Choose a project</h3><input class="picker-search" id="pickerSearch" placeholder="Search project..."/><div id="pickerList"></div></aside><section id="detailContent" class="detail-main"></section></div>
+  </main>
+
+  <main id="notesView" class="view">
+    <div class="notes-layout">
+      <section class="panel notes-list">
+        <div class="notes-head"><div><h2>Notes</h2><p>Catatan tampil sebagai tabel. Gunakan filter untuk melihat umbrella tertentu atau mengubah urutan tanggal.</p></div><div class="notes-head-controls"><select class="filter" id="notesBrandFilter"><option value="all">All umbrella brands</option></select><select class="filter" id="notesSort"><option value="newest">Newest first</option><option value="oldest">Oldest first</option></select></div></div>
+        <div id="notesList"></div>
+      </section>
+      <aside class="panel notes-compose">
+        <h2 id="noteComposerTitle">New note</h2><p>Pilih umbrella, isi judul, catatan, dan link terpisah agar rapi di tabel.</p>
+        <input type="hidden" id="noteId" />
+        <div class="field"><label>Umbrella brand</label><select id="noteBrand"></select></div>
+        <div class="field"><label>Title</label><input id="noteTitle" placeholder="Contoh: Prioritas visual Juli" /></div>
+        <div class="field"><label>Note</label><textarea id="noteContent" placeholder="Tulis catatan atau keputusan utama..."></textarea></div>
+        <div class="field"><label>Link</label><input id="noteLink" type="text" inputmode="url" placeholder="drive.google.com/... atau https://..." /></div>
+        <div class="field"><label>Date</label><input class="note-date-input" id="noteDate" type="date" /></div>
+        <div class="note-compose-actions"><button class="btn" id="clearNoteBtn" type="button">Clear</button><button class="btn primary" id="saveNoteBtn" type="button">Save note</button></div>
+      </aside>
+    </div>
+  </main>
+
+  <footer class="app-footer">@artdirector</footer>
+</div>
+
+<div class="modal" id="projectModal"><div class="modal-box"><div class="modal-head"><h2 id="projectModalTitle">New project</h2><button class="close" data-close="projectModal">×</button></div><form class="form" id="projectForm">
+  <input type="hidden" id="projectId" />
+  <div class="two"><div class="field"><label class="umbrella-inline">Umbrella brand <button type="button" class="mini" id="newUmbrellaInline">+ Add umbrella</button></label><select id="projectBrand"></select></div><div class="field"><label>Project type</label><select id="projectType"><option>Sub-brand / Product</option><option>Event</option><option>Campaign</option><option>General Project</option></select></div></div>
+  <div class="field"><label>Project / sub-brand name</label><input id="projectName" required placeholder="Example: Matcha, BeautyFest, Payday Campaign..."/></div>
+  <div class="field"><label>Project progress</label><div style="padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:#f8fafc;color:#657083;font-size:11px;line-height:1.5">Progress dan current milestone dihitung otomatis dari milestone. Ubah status milestone dari <b>Project Timeline</b>, <b>All Projects</b>, atau <b>Project Detail</b>.</div></div>
+  <div class="two"><div class="field"><label>Project deadline</label><input id="projectDeadline" type="date" readonly required/><small class="field-help">Otomatis mengikuti deadline milestone terakhir.</small></div><div class="field"><label>PIC</label><input id="projectPic" placeholder="Optional"/></div></div>
+  <div class="field"><label>Project overview / decision note</label><textarea id="projectNote" placeholder="Context atau keputusan utama project ini..."></textarea></div>
+  <div class="field" id="projectMilestonePlanField"><label>Milestone plan</label><div class="project-milestone-planner"><div class="project-milestone-planner-head"><div><b>Pilih milestone & deadline</b><p>Tambahkan hanya tahap yang diperlukan. Urutan mengikuti urutan baris dan bisa diatur lagi di Project Detail.</p></div><button class="btn mini" id="addProjectMilestoneBtn" type="button">+ Add milestone</button></div><div class="project-milestone-rows" id="projectMilestoneRows"></div><div class="project-milestone-empty" id="projectMilestoneEmpty">Belum ada milestone. Klik “Add milestone” untuk mulai.</div></div></div>
+  <div class="field hidden" id="projectMilestoneEditHint"><label>Milestones</label><div class="project-deadline-auto">Milestone project ini sudah ada. Tambah atau ubah milestone dari <b>Project Timeline</b> atau <b>Project Detail</b>.</div></div>
+</form><div class="modal-actions"><button class="btn danger hidden" id="deleteProjectBtn" type="button">Delete</button><span style="margin-left:auto"></span><button class="btn" data-close="projectModal" type="button">Cancel</button><button class="btn primary" id="saveProjectBtn" type="button">Save project</button></div></div></div>
+
+<div class="modal" id="milestoneModal"><div class="modal-box"><div class="modal-head"><h2 id="milestoneModalTitle">Add milestone</h2><button class="close" data-close="milestoneModal">×</button></div><form class="form" id="milestoneForm">
+  <input type="hidden" id="milestoneId"/><input type="hidden" id="milestoneProjectId"/>
+  <div class="field"><label>Project</label><select id="milestoneProject"></select></div>
+  <div class="two"><div class="field"><label>Milestone</label><input id="milestoneName" list="milestoneSuggestions" required placeholder="Packaging Design"/></div><div class="field"><label>Milestone status</label><select id="milestoneStatus"><option>Progress</option><option>Review</option><option>Done</option></select><small class="field-help">Milestone Done akan memindahkan current milestone ke tahap berikutnya secara otomatis.</small></div></div>
+  <div class="two"><div class="field"><label>Start date</label><input id="milestoneStart" type="date" required/></div><div class="field"><label>Due date</label><input id="milestoneEnd" type="date" required/></div></div>
+  <div class="field"><label>PIC milestone</label><input id="milestonePic" placeholder="Contoh: Panca, Rio, Designer A" /></div>
+  <div class="field"><label>Timeline note</label><textarea id="milestoneNote" placeholder="Example: waiting for vendor dieline before final artwork."></textarea></div>
+  <div class="field"><label>Catatan untuk PIC</label><input id="milestonePicNote" placeholder="Contoh: Panca, lock final layout sebelum Jumat."/></div>
+  <div class="field"><label>Relevant Google Drive / Figma link</label><input id="milestoneDrive" type="text" inputmode="url" placeholder="drive.google.com/... atau https://..."/></div>
+</form><div class="modal-actions"><button class="btn danger hidden" id="deleteMilestoneBtn" type="button">Delete</button><span style="margin-left:auto"></span><button class="btn" data-close="milestoneModal" type="button">Cancel</button><button class="btn primary" id="saveMilestoneBtn" type="button">Save milestone</button></div></div></div>
+
+
+<div class="modal" id="yearPlanModal"><div class="modal-box"><div class="modal-head"><h2 id="yearPlanModalTitle">Add year note</h2><button class="close" data-close="yearPlanModal">×</button></div><form class="form" id="yearPlanForm">
+  <input type="hidden" id="yearPlanId"/><input type="hidden" id="yearPlanYear"/>
+  <div class="two"><div class="field"><label>Umbrella brand</label><select id="yearPlanBrand"></select></div><div class="field"><label>Month</label><select id="yearPlanMonth"></select></div></div>
+  <div class="field"><label>Planning title</label><input id="yearPlanTitle" required placeholder="Contoh: NPD Product Timeline"/></div>
+  <div class="field"><label>Catatan / fokus bulan ini</label><textarea id="yearPlanNote" placeholder="Contoh: Fokus finalisasi konsep 3 produk baru, tentukan prioritas packaging dan schedule photoshoot."></textarea></div>
+</form><div class="modal-actions"><button class="btn danger hidden" id="deleteYearPlanBtn" type="button">Delete</button><span style="margin-left:auto"></span><button class="btn" data-close="yearPlanModal" type="button">Cancel</button><button class="btn primary" id="saveYearPlanBtn" type="button">Save note</button></div></div></div>
+
+
+<div class="modal" id="umbrellaModal"><div class="modal-box"><div class="modal-head"><h2>Umbrella brands</h2><button class="close" data-close="umbrellaModal">×</button></div><div class="form"><div id="umbrellaList" class="umbrella-list"></div><div class="two"><div class="field"><label>New umbrella name</label><input id="umbrellaName" placeholder="Example: MilkyBoost" /></div><div class="field"><label>Brand color</label><input id="umbrellaColor" type="color" value="#B86A3C" /></div></div></div><div class="modal-actions"><button class="btn" data-close="umbrellaModal" type="button">Close</button><span style="margin-left:auto"></span><button class="btn primary" id="saveUmbrellaBtn" type="button">Add umbrella</button></div></div></div>
+
+<datalist id="milestoneSuggestions"><option>Concept</option><option>Packaging Design</option><option>KV</option><option>Delegasi</option></datalist>
+<div class="toast" id="toast"></div>
+<div class="cloud-status warn" id="cloudStatus">Supabase belum dikonfigurasi</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const SUPABASE_URL="https://pqfptqtznwjwfusihquv.supabase.co";
+const SUPABASE_ANON_KEY="sb_publishable__v2I4wLDiSfiB0el1in3FQ_wY0Wvj5L";
+const SUPABASE_TABLE="creative_hub_state";
+const SUPABASE_STATE_ID="main";
+const APP_DATA_VERSION=3;
+let supabaseClient=null, supabaseReady=false, saveTimer=null, initStarted=false;
+const STORAGE_KEY='supabase_only_no_localstorage';
+const LEGACY_STORAGE_KEYS=[];
+const UMBRELLA_KEY='supabase_only_no_localstorage_umbrellas';
+const LEGACY_UMBRELLA_KEYS=[];
+const YEAR_PLAN_KEY='supabase_only_no_localstorage_year_plans';
+const NOTES_KEY='supabase_only_no_localstorage_notes';
+const BACKUP_KEY='supabase_only_no_localstorage_last_backup';
+const LEGACY_BACKUP_KEYS=[];
+const LEGACY_NOTES_KEYS=[];
+const LEGACY_YEAR_PLAN_KEYS=[];
+const THEME_STORAGE_KEY="creative_hub_theme";
+let appSettings={theme:(()=>{try{return localStorage.getItem(THEME_STORAGE_KEY)||"light"}catch(e){return "light"}})()};
+const MONTH_NAMES=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const MILESTONE_STATUS=['Progress','Review','Done'];
+const DEFAULT_MILESTONE_NAMES=['Concept','Packaging Design','KV','Delegasi'];
+const LEGACY_STAGE_MAP={planned:'',progress:'Progress',review:'Review',done:'Done',blocked:'',concept:'',design:'Progress',launch:'Done'};
+const LEGACY_MILESTONE_MAP={'Concept/Brief':'Concept','Visual Guideline':'Packaging Design','Delegasi Design':'Delegasi'};
+const DAY_LABELS=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+const DEFAULT_UMBRELLAS=[
+  {name:'Nutriflakes',color:'#338A57'},
+  {name:'Naisly',color:'#2F76BC'}
+];
+const today=new Date(); today.setHours(0,0,0,0);
+let startDate=new Date(today), rangeDays=14, timelineView='timeline', selectedId=null, selectedMonth=new Date(today.getFullYear(),today.getMonth(),1), selectedYear=today.getFullYear(), doneProjectsOpen=false;
+
+function iso(d){const x=new Date(d);x.setMinutes(x.getMinutes()-x.getTimezoneOffset());return x.toISOString().slice(0,10)}
+function addDays(d,n){const x=new Date(d);x.setDate(x.getDate()+n);return x}
+function dateObj(v){const d=new Date(String(v||'')+'T00:00:00');return isNaN(d)?new Date():d}
+function dateText(v,year=false){return new Intl.DateTimeFormat('id-ID',{day:'numeric',month:'short',...(year?{year:'numeric'}:{})}).format(dateObj(v))}
+function rangeText(a,b){return dateText(iso(a))+' – '+dateText(iso(b),true)}
+function monthText(d){return new Intl.DateTimeFormat('id-ID',{month:'long',year:'numeric'}).format(d)}
+function clamp(n,min,max){return Math.max(min,Math.min(max,n))}
+function uid(prefix='id'){return prefix+'-'+Math.random().toString(36).slice(2,10)+Date.now().toString(36).slice(-4)}
+function esc(v=''){return String(v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function hash(s){let h=0;for(let i=0;i<s.length;i++)h=((h<<5)-h)+s.charCodeAt(i)|0;return Math.abs(h)}
+function safeFileName(v){return String(v||'project').replace(/[\\/:*?"<>|]+/g,'-').replace(/\s+/g,'-').replace(/-+/g,'-').slice(0,75)}
+function hexToHsl(hex){let s=String(hex||'#64748b').replace('#','');if(s.length===3)s=s.split('').map(x=>x+x).join('');const r=parseInt(s.slice(0,2),16)/255,g=parseInt(s.slice(2,4),16)/255,b=parseInt(s.slice(4,6),16)/255;const max=Math.max(r,g,b),min=Math.min(r,g,b);let h=0,sl=0,l=(max+min)/2;if(max!==min){const d=max-min;sl=l>.5?d/(2-max-min):d/(max+min);switch(max){case r:h=(g-b)/d+(g<b?6:0);break;case g:h=(b-r)/d+2;break;default:h=(r-g)/d+4}h/=6}return {h:Math.round(h*360),s:Math.round(sl*100),l:Math.round(l*100)}}
+function autoColor(name){const hue=hash(name)%360;return `hsl(${hue} 52% 45%)`}
+function asHexOrHsl(color){return color&&String(color).startsWith('#')?color:color||'#64748b'}
+function colorToHsl(color){return String(color||'').startsWith('#')?hexToHsl(color):{h:hash(color)%360,s:50,l:45}}
+function loadUmbrellas(){return DEFAULT_UMBRELLAS.map(x=>({...x}))}
+let umbrellas=loadUmbrellas();
+function normalizeYearPlan(n){return {id:n?.id||uid('yp'),brand:String(n?.brand||'Nutriflakes'),year:Number(n?.year)||today.getFullYear(),month:clamp(Number(n?.month),0,11),title:String(n?.title||''),note:String(n?.note||'')}}
+function yearOverviewSeed(){return []}
+function loadYearPlans(){return yearOverviewSeed()}
+function persistYearPlans(){yearPlans=yearPlans.map(normalizeYearPlan);yearPlans.forEach(n=>ensureUmbrella(n.brand)); if(supabaseReady) scheduleCloudSave()}
+
+let yearPlans=loadYearPlans();
+function noteDateFrom(value){const raw=String(value||'');const hit=raw.match(/^\d{4}-\d{2}-\d{2}/);if(hit)return hit[0];const d=new Date(raw);return isNaN(d)?iso(today):iso(d)}
+function normalizeNote(n){const content=String(n?.content||'');const found=content.match(/(?:https?:\/\/|www\.)[^\s<]+|(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z]{2,63}(?:[/?#][^\s<]*)?/i);const fallback=n?.updatedAt||n?.createdAt||iso(today);return {id:n?.id||uid('note'),brand:String(n?.brand||'Nutriflakes'),title:String(n?.title||''),content,link:String(n?.link||found?.[0]||''),date:noteDateFrom(n?.date||fallback),createdAt:String(n?.createdAt||new Date().toISOString()),updatedAt:String(n?.updatedAt||n?.createdAt||new Date().toISOString())}}
+function loadNotes(){return []}
+function persistNotes(){notes=notes.map(normalizeNote);notes.forEach(n=>ensureUmbrella(n.brand)); if(supabaseReady) scheduleCloudSave()}
+let notes=loadNotes();
+
+function umbrellaFor(name){return umbrellas.find(x=>x.name===name)}
+function ensureUmbrella(name){if(!name)return; if(!umbrellaFor(name)){umbrellas.push({name,color:autoColor(name)});persistUmbrellas()}}
+function persistUmbrellas(){ if(supabaseReady) scheduleCloudSave() }
+function colorFor(p){const entry=umbrellaFor(p.brand)||{color:autoColor(p.brand||'Other')};const c=colorToHsl(entry.color);const lights=[34,40,46,52,37];return `hsl(${c.h} ${Math.max(42,c.s)}% ${lights[hash(p.id||p.name)%lights.length]}%)`}
+function baseColor(brand){return asHexOrHsl((umbrellaFor(brand)||{color:autoColor(brand||'Other')}).color)}
+function isDone(p){const list=p?.milestones||[];return list.length>0&&list.every(m=>m.status==='Done')}
+function defaultLinks(){return {Brief:'', 'Master Drive':'','Working File':'','Final Output':''}}
+function normalizedLink(value=''){
+  const raw=String(value||'').trim();
+  if(!raw) return '';
+  if(/^https?:\/\//i.test(raw)) return raw;
+  // Domain-only links are allowed: drive.google.com, figma.com, rubahbahasa.id, etc.
+  if(/^(?:www\.)?[a-z0-9](?:[a-z0-9-]*[a-z0-9])?(?:\.[a-z0-9-]+)+(?:[/?#][^\s]*)?$/i.test(raw)) return 'https://'+raw;
+  return '';
+}
+function isClickableLink(value){return !!normalizedLink(value)}
+function linkifyText(value=''){
+  const escaped=esc(value||'');
+  const pattern=/((?:https?:\/\/|www\.)[^\s<]+|(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z]{2,63}(?:[/?#][^\s<]*)?)/gi;
+  return escaped.replace(pattern,(match)=>{
+    const clean=match.replace(/[),.;!?]+$/,'');
+    const suffix=match.slice(clean.length);
+    const href=normalizedLink(clean);
+    return href?`<a href="${esc(href)}" target="_blank" rel="noopener">${clean}</a>${suffix}`:match;
+  });
+}
+function firstLiveLink(p){return Object.values(p?.links||{}).find(v=>isClickableLink(v))||''}
+function milestoneLinkForTable(p){
+  const ordered=orderMilestones(p);
+  const current=currentMilestone(p);
+  if(current && isClickableLink(current.drive)) return {url:normalizedLink(current.drive), milestone:current, label:'Current'};
+  if(isDone(p)){
+    const latestWithLink=[...ordered].reverse().find(m=>isClickableLink(m.drive));
+    if(latestWithLink) return {url:normalizedLink(latestWithLink.drive), milestone:latestWithLink, label:'Last'};
+  }
+  return null;
+}
+function normalizeMilestone(m,fallbackSequence=0){
+  const raw=String(m?.status||'').trim();
+  const lower=raw.toLowerCase();
+  const status=MILESTONE_STATUS.includes(raw)?raw:(LEGACY_STAGE_MAP[lower]??'');
+  const name=LEGACY_MILESTONE_MAP[String(m?.name||'')]||String(m?.name||'Milestone');
+  const rawSequence=Number(m?.sequence);
+  return {id:m?.id||uid('m'),name,start:m?.start||iso(today),end:m?.end||m?.start||iso(today),status,note:String(m?.note||''),pic:String(m?.pic||''),picNote:String(m?.picNote||''),drive:String(m?.drive||''),sequence:Number.isFinite(rawSequence)?rawSequence:fallbackSequence}
+}
+function standardMilestoneRanges(deadline){
+  const d=dateObj(deadline||iso(today));
+  return [
+    {name:'Concept',start:addDays(d,-56),end:addDays(d,-43)},
+    {name:'Packaging Design',start:addDays(d,-42),end:addDays(d,-29)},
+    {name:'KV',start:addDays(d,-28),end:addDays(d,-15)},
+    {name:'Delegasi',start:addDays(d,-14),end:addDays(d,-1)}
+  ]
+}
+function makeProjectMilestones(deadline){
+  return standardMilestoneRanges(deadline).map((r,i)=>({id:uid('m'),name:r.name,start:iso(r.start),end:iso(r.end),status:i===0?'Progress':'',note:'',pic:'',picNote:'',drive:'',sequence:i}))
+}
+function orderMilestones(p){return [...(p?.milestones||[])].sort((a,b)=>{
+  const sa=Number.isFinite(Number(a.sequence))?Number(a.sequence):9999;
+  const sb=Number.isFinite(Number(b.sequence))?Number(b.sequence):9999;
+  return sa-sb||a.start.localeCompare(b.start)||a.end.localeCompare(b.end)||a.name.localeCompare(b.name)
+})}
+function ensureMilestoneFlow(p){
+  const ordered=orderMilestones(p);
+  const current=ordered.find(m=>m.status!=='Done');
+  if(current&&!MILESTONE_STATUS.includes(current.status))current.status='Progress';
+  return p
+}
+function currentMilestone(p){return orderMilestones(p).find(m=>m.status!=='Done')||null}
+function milestoneSummary(p){
+  const ordered=orderMilestones(p),total=ordered.length,done=ordered.filter(m=>m.status==='Done').length;
+  return {total,done,percent:total?Math.round((done/total)*100):0,current:currentMilestone(p)}
+}
+function deriveProjectFromMilestones(p){
+  p.milestones=orderMilestones(p).map((m,i)=>({...normalizeMilestone(m,i),sequence:i}));
+  ensureMilestoneFlow(p);
+  const summary=milestoneSummary(p);
+  p.deadline=summary.total?p.milestones[p.milestones.length-1].end:p.deadline||iso(today);
+  p.progress=summary.percent;
+  p.currentMilestoneId=summary.current?.id||'';
+  p.currentMilestoneName=summary.current?.name||(summary.total?'Done':'No milestone');
+  delete p.status;
+  return p
+}
+function normalizeProject(p){
+  p.links=p.links&&typeof p.links==='object'?{...defaultLinks(),...(p.links||{})}:defaultLinks();
+  p.milestones=Array.isArray(p.milestones)?p.milestones.map((m,i)=>normalizeMilestone(m,i)):[];
+  p.brand=p.brand||'Nutriflakes';p.type=p.type||'General Project';ensureUmbrella(p.brand);
+  return deriveProjectFromMilestones(p)
+}
+function stagedProject(brand,type,name,deadline,doneCount=0,currentStatus='Progress'){
+  const milestones=makeProjectMilestones(deadline);
+  milestones.forEach((m,i)=>{if(i<doneCount)m.status='Done'; else if(i===doneCount)m.status=currentStatus; else m.status=''})
+  return deriveProjectFromMilestones({id:uid('seed'),brand,type,name,deadline,pic:'',note:'',links:defaultLinks(),milestones})
+}
+function seed(){return []}
+function load(){return seed().map(normalizeProject)}
+let projects=load();selectedId=projects[0]?.id||null;
+function save(){projects=projects.map(normalizeProject);persistYearPlans();persistNotes();persistUmbrellas();scheduleCloudSave()}
+function findProject(id){return projects.find(p=>p.id===id)}
+function findMilestone(p,id){return p?.milestones.find(m=>m.id===id)}
+function showToast(msg){const e=document.getElementById('toast');e.textContent=msg;e.classList.add('show');clearTimeout(window.__toast);window.__toast=setTimeout(()=>e.classList.remove('show'),2200)}
+function sortProjects(arr){return [...arr].sort((a,b)=>{const activeA=isDone(a)?1:0,activeB=isDone(b)?1:0;if(activeA!==activeB)return activeA-activeB;return a.deadline.localeCompare(b.deadline)||a.name.localeCompare(b.name)})}
+function orderedBrandNames(projectList=projects){const discovered=[...new Set(projectList.map(p=>p.brand))];return [...umbrellas.map(x=>x.name).filter(x=>discovered.includes(x)),...discovered.filter(x=>!umbrellas.some(u=>u.name===x)).sort()]}
+function laneMilestones(ms){const sorted=[...ms].sort((a,b)=>a.start.localeCompare(b.start)||a.end.localeCompare(b.end));const laneEnds=[];const laneById={};for(const m of sorted){let lane=0;while(lane<laneEnds.length&&laneEnds[lane]>=m.start)lane++;if(lane===laneEnds.length)laneEnds.push(m.end);else laneEnds[lane]=m.end;laneById[m.id]=lane}return {laneById,count:Math.max(1,laneEnds.length)}}
+function syncBrandControls(){const filter=document.getElementById('brandFilter');if(!filter)return;const existing=filter.value||'all';filter.innerHTML='<option value="all">All umbrella brands</option>'+umbrellas.map(u=>`<option value="${esc(u.name)}">${esc(u.name)}</option>`).join('');filter.value=umbrellas.some(u=>u.name===existing)?existing:'all'}
+function populateBrandSelect(selected){const select=document.getElementById('projectBrand');select.innerHTML=umbrellas.map(u=>`<option value="${esc(u.name)}" ${u.name===selected?'selected':''}>${esc(u.name)}</option>`).join('');if(selected&&!umbrellas.some(u=>u.name===selected)){ensureUmbrella(selected);populateBrandSelect(selected)}}
+function filteredProjects(){const f=document.getElementById('brandFilter')?.value||'all';return projects.filter(p=>f==='all'||p.brand===f)}
+function milestoneDueItems(){return projects.flatMap(p=>p.milestones.map(m=>({p,m,due:m.end||m.start}))).filter(x=>x.due)}
+function deadlineInfo(m){
+  if(!m)return {kind:'',label:''};
+  if(m.status==='Done')return {kind:'',label:''};
+  const diff=Math.round((dateObj(m.end||m.start)-today)/86400000);
+  if(diff<0)return {kind:'overdue',label:`Overdue ${Math.abs(diff)}d`};
+  if(diff===0)return {kind:'soon',label:'Due today'};
+  if(diff<=3)return {kind:'soon',label:`H-${diff}`};
+  return {kind:'',label:''};
+}
+function deadlineBadge(m){const d=deadlineInfo(m);return d.label?`<span class="deadline-badge ${d.kind}">${esc(d.label)}</span>`:''}
+function loadLastBackup(){return ''}
+function backupDay(value){return String(value||'').slice(0,10)}
+let lastBackup=loadLastBackup();
+function backupStatusHtml(){
+  if(!lastBackup)return `<div><b>Belum ada backup</b><div>Export Backup untuk menyimpan salinan data dashboard.</div></div><button class="btn mini" id="backupNowBtn">Backup now</button>`;
+  const day=backupDay(lastBackup),days=Math.max(0,Math.floor((today-dateObj(day))/86400000));
+  const warning=days>=7;
+  const label=days===0?'hari ini':`${days} hari lalu`;
+  return `<div><b>Last backup: ${dateText(day,true)}</b><div>${warning?'Sudah lebih dari 7 hari sejak backup terakhir.':`Backup terakhir ${label}.`}</div></div><button class="btn mini" id="backupNowBtn">Backup now</button>`;
+}
+function openProjectFromHome(id){selectedId=id;switchMainView('detailView')}
+function renderHome(){
+  const active=projects.filter(p=>!isDone(p));const done=projects.filter(isDone);const queue=milestoneDueItems().filter(x=>x.m.status==='Review').sort((a,b)=>a.due.localeCompare(b.due));
+  const upcoming=milestoneDueItems().filter(x=>x.due>=iso(today)&&!isDone(x.p)).sort((a,b)=>a.due.localeCompare(b.due)).slice(0,6);
+  const thisMonth=milestoneDueItems().filter(x=>{const d=dateObj(x.due);return d.getFullYear()===today.getFullYear()&&d.getMonth()===today.getMonth()&&!isDone(x.p)});
+  document.getElementById('homeStats').innerHTML=[['Active Projects',active.length],['Need Review',queue.length],['This Month',thisMonth.length],['Archived',done.length]].map(([l,n])=>`<div class="home-stat"><span>${l}</span><b>${n}</b></div>`).join('');
+  const q=document.getElementById('reviewQueue');q.innerHTML=queue.length?queue.slice(0,6).map(x=>`<button class="review-row" data-home-project="${x.p.id}"><span><b>${esc(x.p.name)}</b><small>${esc(x.m.name)}${x.m.pic?` · PIC: ${esc(x.m.pic)}`:''} · ${dateText(x.due,true)}</small></span><em class="queue-badge">Review</em></button>`).join(''):'<div class="home-empty">Belum ada item yang menunggu review.</div>';
+  const u=document.getElementById('upcomingDeadlines');u.innerHTML=upcoming.length?upcoming.map(x=>`<button class="deadline-row" data-home-project="${x.p.id}"><span><b>${esc(x.p.name)}</b><small>${esc(x.m.name)}${x.m.pic?` · ${esc(x.m.pic)}`:''} · ${dateText(x.due,true)}</small>${deadlineBadge(x.m)}</span><span class="note-brand-chip"><i class="note-brand-dot" style="background:${baseColor(x.p.brand)}"></i>${esc(x.p.brand)}</span></button>`).join(''):'<div class="home-empty">Tidak ada deadline aktif dalam waktu dekat.</div>';
+  const heat=document.getElementById('deadlineHeatmap');let cells='';for(let i=0;i<14;i++){const d=addDays(today,i),key=iso(d),count=milestoneDueItems().filter(x=>x.due===key&&!isDone(x.p)).length,klass=count>=4?'heat-4':count===3?'heat-3':count===2?'heat-2':count===1?'heat-1':'';cells+=`<div class="heat-day ${klass}"><span class="h-num">${dateText(key)}</span><span class="h-count">${count?count+' deadline'+(count>1?'s':''):'Clear'}</span></div>`}heat.innerHTML=cells;
+  document.getElementById('archiveSnapshot').innerHTML=`<div><b>${done.length}</b><div class="muted" style="font-size:11px">completed project${done.length!==1?'s':''} tersimpan di Done</div></div><button class="btn mini" id="openArchiveBtn">View Done Projects</button>`;
+  const backup=document.getElementById('backupStatus');if(backup){const age=lastBackup?Math.max(0,Math.floor((today-dateObj(backupDay(lastBackup)))/86400000)):999;backup.classList.toggle('warning',age>=7);backup.innerHTML=backupStatusHtml()}
+  document.querySelectorAll('[data-home-project]').forEach(el=>el.addEventListener('click',()=>openProjectFromHome(el.dataset.homeProject)));
+  document.getElementById('openArchiveBtn')?.addEventListener('click',()=>{doneProjectsOpen=true;switchMainView('projectsView')});
+  document.getElementById('backupNowBtn')?.addEventListener('click',exportData)
+}
+function switchMainView(id){document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('active',x.dataset.view===id));document.querySelectorAll('.view').forEach(x=>x.classList.toggle('active',x.id===id));if(id==='homeView')renderHome();if(id==='timelineView')renderTimelineSection();if(id==='projectsView')renderProjects();if(id==='detailView')renderDetail();if(id==='notesView')renderNotes();window.scrollTo({top:0,behavior:'smooth'})}
+function setTimelineView(view){timelineView=view;document.querySelectorAll('[data-timeline-view]').forEach(b=>b.classList.toggle('active',b.dataset.timelineView===view));document.getElementById('timelineMode').classList.toggle('hidden',view!=='timeline');document.getElementById('calendarMode').classList.toggle('hidden',view!=='calendar');document.getElementById('yearMode').classList.toggle('hidden',view!=='year');document.getElementById('rangeButtons').classList.toggle('hidden',view!=='timeline');const tips={timeline:'<b>Timeline view:</b> klik ruang kosong di baris project untuk tambah milestone. Milestone baru otomatis masuk ke Project Detail dan memperbarui current milestone serta progress di All Projects. Klik milestone untuk edit tanggal, status, catatan, PIC note, atau link Drive.',calendar:'<b>Full calendar:</b> satu project tampil satu kali per bulan agar tidak penuh. Di dalam kartu terlihat milestone yang terkait. Klik kartu untuk membuka Project Detail.',year:'<b>Year overview:</b> planning canvas terpisah dari project milestone. Setiap umbrella punya baris sendiri; klik bulan untuk menyimpan catatan, fokus, atau timeline besar brand tersebut.'};document.getElementById('timelineTip').innerHTML=tips[view];renderTimelineSection()}
+function renderTimelineSection(){syncBrandControls();if(timelineView==='timeline')renderTimeline();else if(timelineView==='calendar')renderCalendar();else renderYearTimeline()}
+function yearClass(monthIndex){return 'q'+(Math.floor(monthIndex/3)+1)}
+function renderYearTimeline(){
+  const holder=document.getElementById('yearTimeline'),year=selectedYear,monthNames=MONTH_NAMES;
+  document.getElementById('rangeTitle').textContent=String(year);
+  const selectedBrand=document.getElementById('brandFilter').value;
+  const visibleUmbrellas=umbrellas.filter(u=>selectedBrand==='all'||u.name===selectedBrand);
+  let html=`<div class="year-quarter-head"><div class="year-corner">Umbrella / annual notes</div>${[0,1,2,3].map(q=>`<div class="quarter-head q${q+1}">Q${q+1}<small>${monthNames[q*3]}–${monthNames[q*3+2]}</small></div>`).join('')}</div><div class="year-month-head"><div class="year-corner">${year}</div>${monthNames.map((m,i)=>`<div class="year-month ${yearClass(i)} ${today.getFullYear()===year&&today.getMonth()===i?'current-month':''}">${m}</div>`).join('')}</div>`;
+  if(!visibleUmbrellas.length) html+='<div class="empty-line">Tidak ada umbrella brand pada filter ini.</div>';
+  for(const umbrella of visibleUmbrellas){
+    const notes=yearPlans.filter(n=>n.year===year&&n.brand===umbrella.name);
+    html+=`<div class="year-brand-row"><i style="background:${baseColor(umbrella.name)}"></i>${esc(umbrella.name)} <span class="year-note-count">· ${notes.length} annual note${notes.length!==1?'s':''}</span></div>`;
+    html+=`<div class="year-umbrella-row"><button class="year-umbrella-label" data-open-umbrella-projects="1" data-umbrella-name="${esc(umbrella.name)}"><i class="project-swatch" style="background:${baseColor(umbrella.name)}"></i><span><b>${esc(umbrella.name)}</b><small>Click a month to add a planning note.</small></span></button>`;
+    for(let month=0;month<12;month++){
+      const entries=notes.filter(n=>n.month===month);
+      html+=`<div class="year-month-cell ${yearClass(month)}" data-new-year-plan="1" data-year-plan-brand="${esc(umbrella.name)}" data-year-plan-year="${year}" data-year-plan-month="${month}"><div class="year-plan-stack">${entries.map(n=>`<button class="year-plan-card" style="--plan-color:${baseColor(umbrella.name)}" data-edit-year-plan="${n.id}"><b>${esc(n.title)}</b>${n.note?`<span>${esc(n.note)}</span>`:''}</button>`).join('')}${!entries.length?'<div class="year-plan-empty">Click to add note</div>':''}</div><button class="year-plus" title="Add planning note">+</button></div>`;
+    }
+    html+='</div>';
+  }
+  holder.innerHTML=html;
+  bindTimelineInteractions();
+}
+function bindTimelineInteractions(){
+  document.querySelectorAll('[data-open-project]').forEach(el=>el.addEventListener('click',()=>{selectedId=el.dataset.openProject;switchMainView('detailView')}));
+  document.querySelectorAll('[data-new-milestone-project]').forEach(el=>el.addEventListener('click',e=>{if(e.target.closest('.plus,.year-plus')||e.currentTarget===e.target)openMilestoneModal(null,el.dataset.newMilestoneProject,el.dataset.newMilestoneDate)}));
+  document.querySelectorAll('[data-open-milestone]').forEach(el=>el.addEventListener('click',e=>{e.stopPropagation();const [p,m]=el.dataset.openMilestone.split('|');openMilestoneModal(m,p)}));
+  document.querySelectorAll('[data-new-year-plan]').forEach(el=>el.addEventListener('click',e=>{if(e.target.closest('[data-edit-year-plan]'))return;openYearPlanModal(null,el.dataset.yearPlanBrand,Number(el.dataset.yearPlanYear),Number(el.dataset.yearPlanMonth))}));
+  document.querySelectorAll('[data-edit-year-plan]').forEach(el=>el.addEventListener('click',e=>{e.stopPropagation();openYearPlanModal(el.dataset.editYearPlan)}));
+  document.querySelectorAll('[data-open-umbrella-projects]').forEach(el=>el.addEventListener('click',()=>{const brand=el.dataset.umbrellaName;document.getElementById('brandFilter').value=brand;setTimelineView('timeline');showToast('Showing '+brand+' projects')}));
+}
+function renderTimeline(){
+  const holder=document.getElementById('timeline'),ps=filteredProjects(),days=Array.from({length:rangeDays},(_,i)=>addDays(startDate,i));
+  document.getElementById('rangeTitle').textContent=rangeText(startDate,days[days.length-1]);holder.style.setProperty('--days',rangeDays);
+  let html=`<div class="timeline-head"><div class="corner">Project / Milestones</div>${days.map(d=>`<div class="dayhead ${iso(d)===iso(today)?'today':''}"><span class="dow">${DAY_LABELS[(d.getDay()+6)%7]}</span><span class="num">${d.getDate()}</span></div>`).join('')}</div>`;
+  const byBrand={};ps.forEach(p=>(byBrand[p.brand]??=[]).push(p));
+  if(!ps.length)html+='<div class="empty-line">Tidak ada project pada filter ini.</div>';
+  for(const brand of orderedBrandNames(ps)){
+    const arr=sortProjects(byBrand[brand]||[]);if(!arr.length)continue;
+    html+=`<div class="brand-row"><i style="background:${baseColor(brand)}"></i>${esc(brand)}</div>`;
+    for(const p of arr){
+      const visible=p.milestones.filter(m=>m.end>=iso(days[0])&&m.start<=iso(days[days.length-1]));
+      const lanes=laneMilestones(visible);const rowh=Math.max(104,28+(lanes.count*72));
+      html+=`<div class="project-row" style="--days:${rangeDays};--rowh:${rowh}px"><button class="project-label" data-open-project="${p.id}"><span class="project-name"><i class="project-swatch" style="background:${colorFor(p)}"></i>${esc(p.name)}</span><span class="project-meta"><span class="type-tag">${esc(p.type)}</span><span class="stage-tag">${esc(currentMilestone(p)?.name||'Done')} · ${milestoneSummary(p).done}/${milestoneSummary(p).total} done</span></span></button>${days.map(d=>`<div class="daycell ${[0,6].includes(d.getDay())?'weekend':''}" data-new-milestone-project="${p.id}" data-new-milestone-date="${iso(d)}"><button class="plus" title="Add milestone">+</button></div>`).join('')}<div class="row-overlay">${visible.map(m=>{
+        const lane=lanes.laneById[m.id]||0;const start=Math.max(0,Math.round((dateObj(m.start)-days[0])/86400000));const end=Math.min(rangeDays-1,Math.round((dateObj(m.end)-days[0])/86400000));const width=end-start+1;const due=deadlineInfo(m);
+        const info=[m.note,m.pic?`PIC: ${m.pic}`:'',m.picNote?`PIC note: ${m.picNote}`:'',due.kind==='overdue'||due.kind==='soon'?due.label:''].filter(Boolean);
+        return `<button class="milestone-bar ${due.kind==='overdue'?'overdue':due.kind==='soon'?'soon':''}" data-open-milestone="${p.id}|${m.id}" style="left:calc(${start} * var(--dayw) + 3px);top:${11+lane*72}px;width:calc(${width} * var(--dayw) - 6px);background:${colorFor(p)}">${esc(m.name)}${m.status?` <span class="m-status">${esc(m.status)}</span>`:''}</button>${info.map((item,i)=>`<span class="milestone-info ${i===1?'pic':''} ${item===due.label?'warning':''}" style="left:calc(${start} * var(--dayw) + 5px);top:${39+lane*72+i*12}px;width:calc(${width} * var(--dayw) - 10px);color:${item===due.label?(due.kind==='overdue'?'#b22947':'#9a6808'):baseColor(p.brand)}">${esc(item)}</span>`).join('')}`
+      }).join('')}</div></div>`
+    }
+  }
+  holder.innerHTML=html;bindTimelineInteractions()
+}
+function renderCalendar(){
+  const holder=document.getElementById('calendar');document.getElementById('rangeTitle').textContent=monthText(selectedMonth);
+  const first=new Date(selectedMonth.getFullYear(),selectedMonth.getMonth(),1), firstOffset=(first.getDay()+6)%7, gridStart=addDays(first,-firstOffset), last=new Date(selectedMonth.getFullYear(),selectedMonth.getMonth()+1,0), lastOffset=6-((last.getDay()+6)%7), gridEnd=addDays(last,lastOffset), days=[];
+  for(let d=new Date(gridStart);d<=gridEnd;d=addDays(d,1))days.push(new Date(d));
+  const monthStart=iso(first),monthEnd=iso(last),byDate={};
+  filteredProjects().forEach(p=>{
+    const overlaps=p.milestones.filter(m=>m.end>=monthStart&&m.start<=monthEnd);
+    if(!overlaps.length)return;
+    const startsInside=overlaps.filter(m=>m.start>=monthStart&&m.start<=monthEnd).sort((a,b)=>a.start.localeCompare(b.start));
+    const deadlineInside=p.deadline>=monthStart&&p.deadline<=monthEnd;
+    const anchor=deadlineInside?p.deadline:(startsInside[0]?.start||monthStart);
+    (byDate[anchor]??=[]).push({p,milestones:p.milestones.map(m=>m.name)});
+  });
+  Object.values(byDate).forEach(arr=>arr.sort((a,b)=>a.p.deadline.localeCompare(b.p.deadline)));
+  let html=`<div class="calendar-weekdays">${DAY_LABELS.map(x=>`<div>${x}</div>`).join('')}</div><div class="calendar-grid">`;
+  for(const d of days){
+    const key=iso(d),inMonth=d.getMonth()===selectedMonth.getMonth(),items=byDate[key]||[];
+    html+=`<div class="cal-day ${!inMonth?'outside':''} ${[0,6].includes(d.getDay())?'weekend':''} ${key===iso(today)?'today':''}" data-calendar-date="${key}"><div class="cal-top"><span class="cal-num">${d.getDate()}</span><button class="cal-add" title="Add project" data-new-project-date="${key}">+</button></div>${items.map(({p,milestones})=>`<button class="cal-project-chip" data-open-project="${p.id}" style="background:${isDone(p)?'#a9afb8':colorFor(p)}"><span class="cal-project-title">${esc(p.name)}</span><span class="cal-project-meta">${esc(currentMilestone(p)?.name||'Done')} · ${milestoneSummary(p).done}/${milestoneSummary(p).total} done</span><span class="cal-project-milestones">${esc(milestones.join(' · '))}</span></button>`).join('')}</div>`;
+  }
+  holder.innerHTML=html+'</div>';
+  document.querySelectorAll('[data-new-project-date]').forEach(el=>el.addEventListener('click',e=>{e.stopPropagation();openProjectModal(null,el.dataset.newProjectDate)}));
+  document.querySelectorAll('.cal-day').forEach(el=>el.addEventListener('dblclick',()=>openProjectModal(null,el.dataset.calendarDate)));
+  document.querySelectorAll('[data-open-project]').forEach(el=>el.addEventListener('click',()=>{selectedId=el.dataset.openProject;switchMainView('detailView')}));
+}
+function projectTableRow(p){
+  const summary=milestoneSummary(p),current=summary.current;
+  const milestoneLink=milestoneLinkForTable(p);
+  const currentHtml=current?`<div><b>${esc(current.name)}</b><div class="muted">Due ${dateText(current.end)}${current.pic?` · PIC: ${esc(current.pic)}`:''}</div>${deadlineBadge(current)}</div>`:`<span class="muted">Done</span>`;
+  const quickHtml=current?`<select class="quick-status ${String(current.status||'Progress').toLowerCase()}" data-quick-milestone="${p.id}|${current.id}" aria-label="Update status ${esc(current.name)}"><option value="Progress" ${current.status==='Progress'?'selected':''}>Progress</option><option value="Review" ${current.status==='Review'?'selected':''}>Review</option><option value="Done" ${current.status==='Done'?'selected':''}>Done</option></select>`:`<span class="muted">All milestones done</span>`;
+  const linkHtml=milestoneLink
+    ? `<a class="link" href="${esc(milestoneLink.url)}" target="_blank" rel="noopener">${esc(milestoneLink.milestone.name)} ↗</a><div class="muted" style="margin-top:3px">${milestoneLink.label} milestone</div>`
+    : `<span class="muted">No ${current?'current milestone':''} link</span>`;
+  return `<tr class="${isDone(p)?'done-row':''}"><td><div class="name-cell"><i class="table-color" style="background:${isDone(p)?'#a9afb8':colorFor(p)}"></i><div>${esc(p.name)}<div class="muted">${summary.done}/${summary.total} milestone done · ${esc(p.pic||'No PIC')}</div></div></div></td><td>${esc(p.brand)}</td><td>${esc(p.type)}</td><td>${currentHtml}</td><td>${quickHtml}</td><td><div class="muted"><b style="color:var(--ink)">${summary.done} / ${summary.total}</b> done</div></td><td>${dateText(p.deadline,true)}</td><td>${linkHtml}</td><td><button class="btn mini" data-edit-project="${p.id}">Edit</button></td></tr>`
+}
+function updateMilestoneFromAllProjects(projectId,milestoneId,status){
+  const p=findProject(projectId),m=findMilestone(p,milestoneId);
+  if(!p||!m||!MILESTONE_STATUS.includes(status))return;
+  m.status=status;
+  deriveProjectFromMilestones(p);
+  refreshProjectViews();
+  const next=currentMilestone(p);
+  if(status==='Done'&&next)showToast(`${m.name} selesai · lanjut ke ${next.name}`);
+  else if(status==='Done')showToast(`${p.name} selesai dan dipindahkan ke Done`);
+  else showToast(`${m.name} diperbarui ke ${status}`);
+}
+function bindProjectTableActions(){
+  document.querySelectorAll('[data-edit-project]').forEach(el=>el.addEventListener('click',()=>openProjectModal(el.dataset.editProject)));
+  document.querySelectorAll('[data-quick-milestone]').forEach(el=>el.addEventListener('change',()=>{const [pid,mid]=el.dataset.quickMilestone.split('|');updateMilestoneFromAllProjects(pid,mid,el.value)}));
+  document.querySelector('[data-toggle-done]')?.addEventListener('click',()=>{doneProjectsOpen=!doneProjectsOpen;renderProjects()})
+}
+function renderProjects(){const body=document.getElementById('projectsBody'),q=(document.getElementById('projectSearch').value||'').toLowerCase(),filtered=projects.filter(p=>[p.name,p.brand,p.type,p.pic,currentMilestone(p)?.name||'Done'].join(' ').toLowerCase().includes(q)),active=filtered.filter(p=>!isDone(p)),done=sortProjects(filtered.filter(isDone)),byBrand={};active.forEach(p=>(byBrand[p.brand]??=[]).push(p));let html='';for(const brand of orderedBrandNames(active)){const rows=sortProjects(byBrand[brand]||[]);if(!rows.length)continue;html+=`<tr class="umbrella-group"><td colspan="9"><span style="background:${baseColor(brand)}"></span>${esc(brand)}<small>${rows.length} active project${rows.length>1?'s':''} · sorted by closest deadline</small></td></tr>`;html+=rows.map(projectTableRow).join('')}if(done.length){html+=`<tr class="done-folder"><td colspan="9"><button data-toggle-done>${doneProjectsOpen?'⌄':'›'} Done <span class="done-count">${done.length} completed project${done.length!==1?'s':''}</span></button></td></tr>`;if(doneProjectsOpen)html+=done.map(projectTableRow).join('')}body.innerHTML=html||'<tr><td colspan="9" class="empty">Tidak ada project yang cocok.</td></tr>';bindProjectTableActions()}
+function refreshProjectViews(){save();renderTimelineSection();renderProjects();renderHome();if(document.getElementById('detailView').classList.contains('active'))renderDetail()}
+function renderDetail(){
+  const p=findProject(selectedId)||sortProjects(projects)[0];
+  if(!p){document.getElementById('pickerList').innerHTML='';document.getElementById('detailContent').innerHTML='<div class="panel empty">Belum ada project.</div>';return}
+  selectedId=p.id;
+  const q=(document.getElementById('pickerSearch').value||'').toLowerCase(),matches=projects.filter(x=>[x.name,x.brand,x.type,currentMilestone(x)?.name||'Done'].join(' ').toLowerCase().includes(q)),active=matches.filter(x=>!isDone(x)),done=sortProjects(matches.filter(isDone)),grouped={};active.forEach(x=>(grouped[x.brand]??=[]).push(x));
+  const pickerItem=x=>{const s=milestoneSummary(x),c=s.current;return `<button class="picker-item ${isDone(x)?'done-item':''} ${x.id===p.id?'active':''}" data-pick-project="${x.id}"><i class="picker-color" style="background:${isDone(x)?'#a9afb8':colorFor(x)}"></i><span><b>${esc(x.name)}</b><small>${esc(x.type)} · ${esc(c?.name||'Done')} · ${s.done}/${s.total} done</small></span></button>`};
+  let picker='';for(const brand of orderedBrandNames(active)){const arr=sortProjects(grouped[brand]||[]);if(arr.length)picker+=`<div class="picker-brand"><i class="umbrella-dot" style="background:${baseColor(brand)}"></i>${esc(brand)}</div>${arr.map(pickerItem).join('')}`}if(done.length)picker+=`<details class="picker-done" ${isDone(p)?'open':''}><summary>Done · ${done.length} project${done.length!==1?'s':''}</summary>${done.map(pickerItem).join('')}</details>`;
+  document.getElementById('pickerList').innerHTML=picker||'<div class="empty" style="padding:18px">Tidak ada project yang cocok.</div>';
+  document.querySelectorAll('[data-pick-project]').forEach(el=>el.addEventListener('click',()=>{selectedId=el.dataset.pickProject;renderDetail()}));
+  const ordered=orderMilestones(p),summary=milestoneSummary(p),current=summary.current;
+  const mileHtml=ordered.length?ordered.map((m,index)=>`<div class="journey-item milestone-item"><span><b><i class="mile-dot" style="background:${isDone(p)?'#a8afb7':colorFor(p)}"></i>${esc(m.name)}${m.status?` <small style="color:#7b8796;font-weight:800">${esc(m.status)}</small>`:''}</b>${deadlineBadge(m)}${m.pic?`<p class="pic-note"><span>PIC</span>${esc(m.pic)}</p>`:''}${m.note?`<p>${esc(m.note)}</p>`:`<p class="muted">No milestone note yet.</p>`}${m.picNote?`<p class="pic-note"><span>PIC note</span>${esc(m.picNote)}</p>`:''}${isClickableLink(m.drive)?`<a class="milestone-drive-link" href="${esc(normalizedLink(m.drive))}" target="_blank" rel="noopener">Open milestone link ↗</a>`:`<p class="milestone-no-link">No milestone link yet.</p>`}</span><span style="display:flex;align-items:center;gap:8px"><time>${dateText(m.start)} – ${dateText(m.end,true)}</time><span class="milestone-order-actions"><button class="milestone-order-btn" data-move-milestone="${p.id}|${m.id}|up" ${index===0?'disabled':''} title="Move up">↑</button><button class="milestone-order-btn" data-move-milestone="${p.id}|${m.id}|down" ${index===ordered.length-1?'disabled':''} title="Move down">↓</button></span><button class="milestone-edit-btn" data-open-milestone="${p.id}|${m.id}">Edit</button></span></div>`).join(''):'<div class="empty" style="padding:22px">Belum ada milestone.</div>';
+  const linkEntries=Object.entries(p.links||{});
+  document.getElementById('detailContent').innerHTML=`<section class="panel detail-card ${isDone(p)?'done-project':''}"><div class="project-header"><div><div class="subline">${esc(p.brand)} · ${esc(p.type)}${isDone(p)?' · Done':''}</div><h2>${esc(p.name)}</h2><div class="subline">Current milestone: <b>${esc(current?.name||'Done')}</b>${current?.status?` · ${esc(current.status)}`:''}${current?.pic?` · PIC ${esc(current.pic)}`:''} · ${summary.done}/${summary.total} done · Deadline ${dateText(p.deadline,true)}${p.pic?' · PIC '+esc(p.pic):''}</div><div class="print-only report-note">Creative Hub Dashboard · @artdirector</div></div><div class="detail-actions"><button class="btn mini" data-export-project-pdf="${p.id}">Export PDF</button><button class="btn mini" data-edit-project="${p.id}">Edit project</button><button class="btn primary" data-add-milestone-project="${p.id}">+ Milestone</button></div></div><div class="quick-grid"><div class="quick"><span>Current milestone</span><b>${esc(current?.name||'Done')}</b>${current?.pic?`<small class="muted">PIC: ${esc(current.pic)}</small>`:''}${current?deadlineBadge(current):''}</div><div class="quick"><span>Progress</span><b>${summary.done} / ${summary.total} done</b></div><div class="quick"><span>Milestones</span><b>${summary.total}</b></div><div class="quick"><span>Deadline</span><b>${dateText(p.deadline)}</b></div></div><div class="dependency-flow">${ordered.map((m,i)=>{const cls=m.status==='Done'?'done':m.id===current?.id?'current':'locked';return `<span class="dep-step ${cls}">${esc(m.name)}</span>${i<ordered.length-1?'<span class="dep-arrow">→</span>':''}`}).join('')}</div><p class="dep-caption">Current milestone mengikuti urutan ini. Gunakan tombol ↑ / ↓ pada setiap milestone untuk mengubah urutan kerja.</p></section><section class="panel detail-card ${isDone(p)?'done-project':''}"><div class="subheading"><h3>Project note</h3><button class="btn mini" data-save-project-note="${p.id}">Save note</button></div><textarea class="note-area" id="projectOverviewNote">${esc(p.note||'')}</textarea></section><section class="panel detail-card ${isDone(p)?'done-project':''}"><div class="subheading"><h3>Milestones</h3><span class="muted">Catatan dan link terlihat langsung</span></div><div class="journey">${mileHtml}</div></section><section class="panel detail-card ${isDone(p)?'done-project':''}"><div class="subheading"><h3>Google Drive & working links</h3><button class="btn mini" data-add-link="${p.id}">+ Custom link</button></div><div class="links-grid">${linkEntries.map(([label,url])=>`<div class="link-edit"><b>${esc(label)}</b><div class="link-row"><input class="link-input" data-link-input="${p.id}|${esc(label)}" value="${esc(url)}" placeholder="drive.google.com/... atau https://..."/><button class="save-mini" data-save-link="${p.id}|${esc(label)}">Save</button>${isClickableLink(url)?`<a class="save-mini" href="${esc(normalizedLink(url))}" target="_blank" rel="noopener">Open ↗</a>`:''}${!['Brief','Master Drive','Working File','Final Output'].includes(label)?`<button class="remove-link" title="Remove" data-remove-link="${p.id}|${esc(label)}">×</button>`:''}</div></div>`).join('')}</div></section>`;
+  document.querySelectorAll('[data-open-milestone]').forEach(el=>el.addEventListener('click',()=>{const [project,mile]=el.dataset.openMilestone.split('|');openMilestoneModal(mile,project)}));
+  document.querySelectorAll('[data-move-milestone]').forEach(el=>el.addEventListener('click',()=>{const [project,mile,direction]=el.dataset.moveMilestone.split('|');moveMilestone(project,mile,direction)}));
+  document.querySelector('[data-edit-project]')?.addEventListener('click',()=>openProjectModal(p.id));
+  document.querySelector('[data-export-project-pdf]')?.addEventListener('click',()=>exportProjectPdf(p));
+  document.querySelector('[data-add-milestone-project]')?.addEventListener('click',()=>openMilestoneModal(null,p.id,iso(today)));
+  document.querySelector('[data-save-project-note]')?.addEventListener('click',()=>{p.note=document.getElementById('projectOverviewNote').value;save();showToast('Project note saved')});
+  document.querySelectorAll('[data-save-link]').forEach(el=>el.addEventListener('click',()=>{const [pid,label]=el.dataset.saveLink.split('|');const proj=findProject(pid),input=document.querySelector(`[data-link-input="${CSS.escape(pid+'|'+label)}"]`);proj.links[label]=input.value.trim();save();showToast('Link saved')}));
+  document.querySelectorAll('[data-remove-link]').forEach(el=>el.addEventListener('click',()=>{const [pid,label]=el.dataset.removeLink.split('|');delete findProject(pid).links[label];save();renderDetail();showToast('Link removed')}));
+  document.querySelector('[data-add-link]')?.addEventListener('click',()=>addCustomLink(p.id));
+}
+function clearProjectMilestonePlanner(){
+  const rows=document.getElementById('projectMilestoneRows');
+  if(rows)rows.innerHTML='';
+  syncProjectMilestonePlanner();
+}
+function addProjectMilestoneRow(data={}){
+  const rows=document.getElementById('projectMilestoneRows');
+  if(!rows)return;
+  const defaultDate=data.deadline||data.end||document.getElementById('projectDeadline')?.value||iso(addDays(today,7));
+  const row=document.createElement('div');
+  row.className='project-milestone-row';
+  row.innerHTML=`<input class="planned-milestone-name" list="milestoneSuggestions" value="${esc(data.name||'')}" placeholder="Milestone name"/><input class="planned-milestone-date" type="date" value="${esc(defaultDate)}" aria-label="Milestone deadline"/><input class="planned-milestone-pic" value="${esc(data.pic||'')}" placeholder="PIC (optional)" aria-label="Milestone PIC"/><button class="remove-planned-milestone" type="button" title="Remove milestone">×</button>`;
+  rows.appendChild(row);
+  row.querySelector('.planned-milestone-date').addEventListener('change',syncProjectMilestonePlanner);
+  row.querySelector('.remove-planned-milestone').addEventListener('click',()=>{row.remove();syncProjectMilestonePlanner()});
+  syncProjectMilestonePlanner();
+}
+function syncProjectMilestonePlanner(){
+  const rows=[...document.querySelectorAll('#projectMilestoneRows .project-milestone-row')];
+  const empty=document.getElementById('projectMilestoneEmpty');
+  if(empty)empty.classList.toggle('hidden',rows.length>0);
+  const dates=rows.map(row=>row.querySelector('.planned-milestone-date')?.value).filter(Boolean);
+  const deadline=document.getElementById('projectDeadline');
+  if(deadline&&dates.length)deadline.value=dates[dates.length-1];
+}
+function collectPlannedMilestones(){
+  const rows=[...document.querySelectorAll('#projectMilestoneRows .project-milestone-row')];
+  if(!rows.length)return {items:[],error:'Tambahkan minimal satu milestone untuk project ini.'};
+  const items=[];
+  for(const row of rows){
+    const name=row.querySelector('.planned-milestone-name')?.value.trim();
+    const date=row.querySelector('.planned-milestone-date')?.value;
+    if(!name||!date)return {items:[],error:'Lengkapi nama dan deadline untuk setiap milestone.'};
+    const pic=row.querySelector('.planned-milestone-pic')?.value.trim()||'';
+    items.push({id:uid('m'),name,start:date,end:date,status:'',note:'',pic,picNote:'',drive:'',sequence:items.length});
+  }
+  return {items,error:''};
+}
+function openProjectModal(id=null,presetDate=null){
+  const existing=id?findProject(id):null;
+  document.getElementById('projectModalTitle').textContent=existing?'Edit project':'New project';
+  document.getElementById('projectId').value=existing?.id||'';
+  populateBrandSelect(existing?.brand||'Nutriflakes');
+  document.getElementById('projectType').value=existing?.type||'Sub-brand / Product';
+  document.getElementById('projectName').value=existing?.name||'';
+  document.getElementById('projectDeadline').value=existing?.deadline||presetDate||iso(addDays(today,7));
+  document.getElementById('projectPic').value=existing?.pic||'';
+  document.getElementById('projectNote').value=existing?.note||'';
+  document.getElementById('projectMilestonePlanField').classList.toggle('hidden',!!existing);
+  document.getElementById('projectMilestoneEditHint').classList.toggle('hidden',!existing);
+  clearProjectMilestonePlanner();
+  if(!existing)addProjectMilestoneRow({deadline:presetDate||iso(addDays(today,7))});
+  document.getElementById('deleteProjectBtn').classList.toggle('hidden',!existing);
+  document.getElementById('projectModal').classList.add('open')
+}
+function closeModal(id){document.getElementById(id).classList.remove('open')}
+function saveProject(){
+  const id=document.getElementById('projectId').value,existing=id?findProject(id):null,name=document.getElementById('projectName').value.trim();
+  if(!name){showToast('Project name is required');return}
+  const brand=document.getElementById('projectBrand').value;ensureUmbrella(brand);
+  let milestones=existing?.milestones||[];
+  if(!existing){
+    const planned=collectPlannedMilestones();
+    if(planned.error){showToast(planned.error);return}
+    milestones=planned.items;
+  }
+  const deadline=milestones.length?milestones[milestones.length-1].end:document.getElementById('projectDeadline').value;
+  const data={id:existing?.id||uid('p'),brand,type:document.getElementById('projectType').value,name,deadline,pic:document.getElementById('projectPic').value.trim(),note:document.getElementById('projectNote').value.trim(),links:existing?.links||defaultLinks(),milestones};
+  if(!existing){projects.push(data);selectedId=data.id}else Object.assign(existing,data);
+  deriveProjectFromMilestones(existing||data);refreshProjectViews();closeModal('projectModal');showToast(existing?'Project updated':'Project added')
+}
+function deleteProject(){const id=document.getElementById('projectId').value;if(!id||!confirm('Hapus project ini beserta semua milestone?'))return;projects=projects.filter(p=>p.id!==id);selectedId=projects[0]?.id||null;save();closeModal('projectModal');renderTimelineSection();renderProjects();renderHome();renderDetail();showToast('Project deleted')}
+function populateMilestoneProjects(selected){document.getElementById('milestoneProject').innerHTML=sortProjects(projects).map(p=>`<option value="${p.id}" ${p.id===selected?'selected':''}>${esc(p.brand)} · ${esc(p.name)}</option>`).join('')}
+function openMilestoneModal(mid=null,pid=null,presetDate=null){const p=findProject(pid)||findProject(selectedId)||projects[0];if(!p)return;const m=mid?findMilestone(p,mid):null;populateMilestoneProjects(p.id);document.getElementById('milestoneModalTitle').textContent=m?'Edit milestone':'Add milestone';document.getElementById('milestoneId').value=m?.id||'';document.getElementById('milestoneProjectId').value=p.id;document.getElementById('milestoneName').value=m?.name||'';document.getElementById('milestoneStatus').value=m?.status||'Progress';document.getElementById('milestoneStart').value=m?.start||presetDate||iso(today);document.getElementById('milestoneEnd').value=m?.end||presetDate||iso(today);document.getElementById('milestoneNote').value=m?.note||'';document.getElementById('milestonePic').value=m?.pic||'';document.getElementById('milestonePicNote').value=m?.picNote||'';document.getElementById('milestoneDrive').value=m?.drive||'';document.getElementById('deleteMilestoneBtn').classList.toggle('hidden',!m);document.getElementById('milestoneModal').classList.add('open')}
+function saveMilestone(){
+  const originalPid=document.getElementById('milestoneProjectId').value,id=document.getElementById('milestoneId').value,targetPid=document.getElementById('milestoneProject').value,name=document.getElementById('milestoneName').value.trim(),start=document.getElementById('milestoneStart').value,end=document.getElementById('milestoneEnd').value;
+  if(!name||!start||!end){showToast('Milestone, start date, and due date are required');return}
+  if(end<start){showToast('Due date cannot be before start date');return}
+  const data={id:id||uid('m'),name,start,end,status:document.getElementById('milestoneStatus').value,note:document.getElementById('milestoneNote').value.trim(),pic:document.getElementById('milestonePic').value.trim(),picNote:document.getElementById('milestonePicNote').value.trim(),drive:document.getElementById('milestoneDrive').value.trim(),sequence:0};
+  let previousSequence=0;
+  if(id){const old=findProject(originalPid);const existingMilestone=findMilestone(old,id);previousSequence=existingMilestone?.sequence??0;old.milestones=old.milestones.filter(x=>x.id!==id);deriveProjectFromMilestones(old)}
+  const target=findProject(targetPid);data.sequence=id&&targetPid===originalPid?previousSequence:target.milestones.length;target.milestones.push(data);deriveProjectFromMilestones(target);selectedId=targetPid;
+  refreshProjectViews();closeModal('milestoneModal');showToast(id?'Milestone updated':'Milestone added to project')
+}
+function deleteMilestone(){const pid=document.getElementById('milestoneProjectId').value,mid=document.getElementById('milestoneId').value;if(!pid||!mid||!confirm('Hapus milestone ini?'))return;const p=findProject(pid);p.milestones=p.milestones.filter(m=>m.id!==mid);deriveProjectFromMilestones(p);refreshProjectViews();closeModal('milestoneModal');showToast('Milestone deleted')}
+function moveMilestone(projectId,milestoneId,direction){
+  const p=findProject(projectId);if(!p)return;
+  const ordered=orderMilestones(p),index=ordered.findIndex(m=>m.id===milestoneId),target=direction==='up'?index-1:index+1;
+  if(index<0||target<0||target>=ordered.length)return;
+  [ordered[index],ordered[target]]=[ordered[target],ordered[index]];
+  p.milestones=ordered.map((m,i)=>({...m,sequence:i}));
+  deriveProjectFromMilestones(p);refreshProjectViews();showToast('Milestone order updated')
+}
+function populateYearPlanBrands(selected){document.getElementById('yearPlanBrand').innerHTML=umbrellas.map(u=>`<option value="${esc(u.name)}" ${u.name===selected?'selected':''}>${esc(u.name)}</option>`).join('')}
+function populateYearPlanMonths(selected){document.getElementById('yearPlanMonth').innerHTML=MONTH_NAMES.map((m,i)=>`<option value="${i}" ${i===Number(selected)?'selected':''}>${m}</option>`).join('')}
+function openYearPlanModal(id=null,brand=null,year=null,month=null){const existing=id?yearPlans.find(n=>n.id===id):null;const activeYear=existing?.year??year??selectedYear,activeBrand=existing?.brand??brand??umbrellas[0]?.name??'Nutriflakes',activeMonth=existing?.month??month??0;populateYearPlanBrands(activeBrand);populateYearPlanMonths(activeMonth);document.getElementById('yearPlanModalTitle').textContent=existing?'Edit year note':'Add year note';document.getElementById('yearPlanId').value=existing?.id||'';document.getElementById('yearPlanYear').value=activeYear;document.getElementById('yearPlanTitle').value=existing?.title||'';document.getElementById('yearPlanNote').value=existing?.note||'';document.getElementById('deleteYearPlanBtn').classList.toggle('hidden',!existing);document.getElementById('yearPlanModal').classList.add('open')}
+function saveYearPlan(){const id=document.getElementById('yearPlanId').value,title=document.getElementById('yearPlanTitle').value.trim();if(!title){showToast('Planning title is required');return}const existing=id?yearPlans.find(n=>n.id===id):null,data={id:existing?.id||uid('yp'),brand:document.getElementById('yearPlanBrand').value,year:Number(document.getElementById('yearPlanYear').value||selectedYear),month:Number(document.getElementById('yearPlanMonth').value),title,note:document.getElementById('yearPlanNote').value.trim()};if(existing)Object.assign(existing,data);else yearPlans.push(data);persistYearPlans();persistUmbrellas();closeModal('yearPlanModal');renderTimelineSection();showToast(existing?'Year note updated':'Year note added')}
+function deleteYearPlan(){const id=document.getElementById('yearPlanId').value;if(!id||!confirm('Hapus catatan tahunan ini?'))return;yearPlans=yearPlans.filter(n=>n.id!==id);persistYearPlans();closeModal('yearPlanModal');renderTimelineSection();showToast('Year note deleted')}
+function noteHtml(value){return linkifyText(value)}
+function populateNoteBrands(selected){const select=document.getElementById('noteBrand');if(!select)return;const value=selected||select.value||umbrellas[0]?.name||'Nutriflakes';select.innerHTML=umbrellas.map(u=>`<option value="${esc(u.name)}" ${u.name===value?'selected':''}>${esc(u.name)}</option>`).join('')}
+function syncNotesControls(){const brandFilter=document.getElementById('notesBrandFilter');if(!brandFilter)return;const current=brandFilter.value||'all';brandFilter.innerHTML='<option value="all">All umbrella brands</option>'+umbrellas.map(u=>`<option value="${esc(u.name)}">${esc(u.name)}</option>`).join('');brandFilter.value=umbrellas.some(u=>u.name===current)?current:'all'}
+function clearNoteComposer(){const id=document.getElementById('noteId');if(!id)return;id.value='';populateNoteBrands();document.getElementById('noteTitle').value='';document.getElementById('noteContent').value='';document.getElementById('noteLink').value='';document.getElementById('noteDate').value=iso(today);document.getElementById('noteComposerTitle').textContent='New note';document.getElementById('saveNoteBtn').textContent='Save note'}
+function loadNoteIntoComposer(id){const n=notes.find(x=>x.id===id);if(!n)return;document.getElementById('noteId').value=n.id;populateNoteBrands(n.brand);document.getElementById('noteTitle').value=n.title;document.getElementById('noteContent').value=n.content;document.getElementById('noteLink').value=n.link||'';document.getElementById('noteDate').value=noteDateFrom(n.date);document.getElementById('noteComposerTitle').textContent='Edit note';document.getElementById('saveNoteBtn').textContent='Update note';document.getElementById('noteTitle').focus()}
+function saveNote(){const id=document.getElementById('noteId').value,title=document.getElementById('noteTitle').value.trim(),content=document.getElementById('noteContent').value.trim(),link=document.getElementById('noteLink').value.trim(),brand=document.getElementById('noteBrand').value,date=document.getElementById('noteDate').value||iso(today);if(!title&&!content&&!link){showToast('Isi judul, catatan, atau link terlebih dahulu');return}const existing=id?notes.find(n=>n.id===id):null,now=new Date().toISOString(),data={id:existing?.id||uid('note'),brand,title:title||'Untitled note',content,link,date,createdAt:existing?.createdAt||now,updatedAt:now};if(existing)Object.assign(existing,data);else notes.unshift(data);persistNotes();renderNotes();clearNoteComposer();showToast(existing?'Note updated':'Note saved')}
+function deleteNote(id){if(!confirm('Hapus note ini?'))return;notes=notes.filter(n=>n.id!==id);persistNotes();renderNotes();showToast('Note deleted')}
+function renderNotes(){const holder=document.getElementById('notesList');if(!holder)return;populateNoteBrands();syncNotesControls();const brand=document.getElementById('notesBrandFilter')?.value||'all',sortMode=document.getElementById('notesSort')?.value||'newest';const filtered=notes.filter(n=>brand==='all'||n.brand===brand);const sorted=[...filtered].sort((a,b)=>sortMode==='oldest'?String(a.date).localeCompare(String(b.date)):String(b.date).localeCompare(String(a.date)));if(!sorted.length){holder.innerHTML='<div class="notes-empty">Belum ada note pada filter ini. Tulis catatan pertama di panel kanan.</div>';return}const dateFmt=new Intl.DateTimeFormat('id-ID',{day:'numeric',month:'short',year:'numeric'});holder.innerHTML=`<div class="notes-table-wrap"><table class="notes-table"><thead><tr><th>Title</th><th>Note</th><th>Link</th><th>Umbrella</th><th>Date</th><th></th></tr></thead><tbody>${sorted.map(n=>{const long=n.content.length>220;const body=n.content?long?`<details class="note-body-details"><summary><div class="note-body note-body-preview">${noteHtml(n.content)}</div></summary><div class="note-body">${noteHtml(n.content)}</div></details>`:`<div class="note-body">${noteHtml(n.content)}</div>`:'<span class="muted">—</span>';const link=isClickableLink(n.link)?`<a class="note-link" href="${esc(normalizedLink(n.link))}" target="_blank" rel="noopener">Open ↗</a>`:'<span class="muted">—</span>';return `<tr><td class="note-title">${esc(n.title)}</td><td>${body}</td><td>${link}</td><td><span class="note-brand-chip"><i class="note-brand-dot" style="background:${baseColor(n.brand)}"></i>${esc(n.brand)}</span></td><td class="note-date">${dateFmt.format(dateObj(n.date))}</td><td><div class="note-actions"><button data-note-edit="${n.id}">Edit</button><button class="delete-note" data-note-delete="${n.id}">Delete</button></div></td></tr>`}).join('')}</tbody></table></div>`;document.querySelectorAll('[data-note-edit]').forEach(el=>el.addEventListener('click',()=>loadNoteIntoComposer(el.dataset.noteEdit)));document.querySelectorAll('[data-note-delete]').forEach(el=>el.addEventListener('click',()=>deleteNote(el.dataset.noteDelete)))}
+function renderUmbrellaList(){
+  const holder=document.getElementById('umbrellaList');
+  if(!holder)return;
+  if(!umbrellas.length){holder.innerHTML='<div class="empty">Belum ada umbrella brand.</div>';return}
+  holder.innerHTML=umbrellas.map((u,i)=>`<div class="umbrella-row"><strong><span class="umbrella-dot" style="background:${esc(asHexOrHsl(u.color))}"></span>${esc(u.name)}</strong><div style="display:flex;align-items:center;gap:7px"><input type="color" value="${esc(String(u.color||autoColor(u.name)).startsWith('#')?u.color:'#64748b')}" data-umbrella-color="${i}" style="width:38px;height:32px;border:1px solid var(--line);border-radius:8px;background:#fff"><button type="button" class="mini" data-umbrella-update="${i}">Update</button><button type="button" class="mini danger" data-umbrella-delete="${i}">Delete</button></div></div>`).join('');
+  holder.querySelectorAll('[data-umbrella-update]').forEach(btn=>btn.addEventListener('click',()=>{
+    const i=Number(btn.dataset.umbrellaUpdate); const input=holder.querySelector(`[data-umbrella-color="${i}"]`);
+    if(!umbrellas[i]||!input)return;
+    umbrellas[i].color=input.value;
+    persistUmbrellas(); syncBrandControls(); renderAll(); openUmbrellaModal(); showToast('Umbrella color updated');
+  }));
+  holder.querySelectorAll('[data-umbrella-delete]').forEach(btn=>btn.addEventListener('click',()=>{
+    const i=Number(btn.dataset.umbrellaDelete); const u=umbrellas[i]; if(!u)return;
+    const used=projects.some(p=>p.brand===u.name)||yearPlans.some(n=>n.brand===u.name)||notes.some(n=>n.brand===u.name);
+    if(used){showToast('Umbrella masih dipakai project/note');return}
+    if(!confirm('Hapus umbrella brand ini?'))return;
+    umbrellas.splice(i,1); persistUmbrellas(); syncBrandControls(); renderUmbrellaList(); renderAll(); showToast('Umbrella deleted');
+  }));
+}
+function openUmbrellaModal(){renderUmbrellaList();document.getElementById('umbrellaName').value='';document.getElementById('umbrellaColor').value='#B86A3C';document.getElementById('umbrellaModal').classList.add('open')}
+function saveUmbrella(){const name=document.getElementById('umbrellaName').value.trim(),color=document.getElementById('umbrellaColor').value;if(!name){showToast('Umbrella name is required');return}if(umbrellas.some(u=>u.name.toLowerCase()===name.toLowerCase())){showToast('Umbrella brand already exists');return}umbrellas.push({name,color});persistUmbrellas();syncBrandControls();renderUmbrellaList();populateBrandSelect(name);document.getElementById('umbrellaName').value='';showToast('Umbrella brand added')}
+function exportProjectPdf(p){const previous=document.title;document.title=`${safeFileName(p.brand)}-${safeFileName(p.name)}-Project-Report`;const restore=()=>{document.title=previous;document.body.classList.remove('printing-project')};document.body.classList.add('printing-project');window.addEventListener('afterprint',restore,{once:true});window.print()}
+
+function applyTheme(theme){
+  const next=theme==='dark'?'dark':'light';
+  appSettings.theme=next;
+  document.body.dataset.theme=next;
+  const btn=document.getElementById('themeToggleBtn');
+  if(btn) btn.textContent=next==='dark'?'Light mode':'Dark mode';
+  try{localStorage.setItem(THEME_STORAGE_KEY,next)}catch(e){}
+}
+function toggleTheme(){
+  applyTheme(appSettings.theme==='dark'?'light':'dark');
+  if(supabaseClient) scheduleCloudSave();
+}
+
+function isSupabaseConfigured(){
+  return SUPABASE_URL && SUPABASE_ANON_KEY && !SUPABASE_URL.includes('PASTE_') && !SUPABASE_ANON_KEY.includes('PASTE_');
+}
+function setCloudStatus(text,kind='warn'){
+  const el=document.getElementById('cloudStatus'); if(!el)return;
+  el.textContent=text; el.className='cloud-status '+kind;
+}
+function currentStatePayload(){
+  return {version:APP_DATA_VERSION,updatedAt:new Date().toISOString(),appSettings,umbrellas,projects,yearPlans,notes,lastBackup};
+}
+function migrateStatePayload(data={}){
+  const source=data&&typeof data==='object'?data:{};
+  const version=Number(source.version)||1;
+  const migrated={...source,version:APP_DATA_VERSION};
+  if(!Array.isArray(migrated.umbrellas)||!migrated.umbrellas.length) migrated.umbrellas=DEFAULT_UMBRELLAS.map(x=>({...x}));
+  if(!Array.isArray(migrated.projects)) migrated.projects=[];
+  if(!Array.isArray(migrated.yearPlans)) migrated.yearPlans=[];
+  if(!Array.isArray(migrated.notes)) migrated.notes=[];
+  if(!migrated.appSettings||typeof migrated.appSettings!=="object") migrated.appSettings={};
+  migrated.appSettings.theme=migrated.appSettings.theme==="dark"?"dark":"light";
+  // v1 -> v3: keep the same JSON shape, but normalize every collection so future feature updates do not break old data.
+  migrated.umbrellas=migrated.umbrellas.filter(u=>u&&u.name).map(u=>({name:String(u.name),color:u.color||autoColor(u.name)}));
+  migrated.projects=migrated.projects.map(normalizeProject);
+  migrated.yearPlans=migrated.yearPlans.map(normalizeYearPlan);
+  migrated.notes=migrated.notes.map(normalizeNote);
+  migrated.lastBackup=String(migrated.lastBackup||'');
+  migrated.migratedFrom=version;
+  return migrated;
+}
+function applyStatePayload(data={}){
+  const migrated=migrateStatePayload(data);
+  umbrellas=migrated.umbrellas;
+  projects=migrated.projects;
+  yearPlans=migrated.yearPlans;
+  notes=migrated.notes;
+  appSettings=migrated.appSettings||appSettings;
+  applyTheme(appSettings.theme);
+  lastBackup=migrated.lastBackup;
+  selectedId=projects[0]?.id||null;
+}
+async function initSupabase(){
+  if(initStarted) return;
+  initStarted=true;
+  if(!isSupabaseConfigured()){
+    setCloudStatus('Isi Supabase URL & anon key dulu','warn');
+    renderAll();
+    return;
+  }
+  try{
+    supabaseClient=window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY);
+    setCloudStatus('Loading cloud data...','warn');
+    const {data,error}=await supabaseClient.from(SUPABASE_TABLE).select('data').eq('id',SUPABASE_STATE_ID).maybeSingle();
+    if(error) throw error;
+    if(data?.data) applyStatePayload(data.data);
+    else await saveCloudNow(true);
+    supabaseReady=true;
+    setCloudStatus('✓ Saved online','ok');
+    renderAll();
+  }catch(err){
+    console.error(err);
+    setCloudStatus('Supabase error: cek setup','err');
+    renderAll();
+  }
+}
+function scheduleCloudSave(){
+  if(!isSupabaseConfigured()||!supabaseClient){setCloudStatus('Belum tersambung Supabase','warn');return}
+  setCloudStatus('Saving...','warn');
+  clearTimeout(saveTimer);
+  saveTimer=setTimeout(()=>saveCloudNow(),500);
+}
+async function saveCloudNow(silent=false){
+  if(!isSupabaseConfigured()||!supabaseClient){if(!silent)setCloudStatus('Belum tersambung Supabase','warn');return}
+  try{
+    const payload=currentStatePayload();
+    const {error}=await supabaseClient.from(SUPABASE_TABLE).upsert({id:SUPABASE_STATE_ID,data:payload,updated_at:new Date().toISOString()},{onConflict:'id'});
+    if(error) throw error;
+    setCloudStatus('✓ Saved online','ok');
+  }catch(err){
+    console.error(err);
+    setCloudStatus('Save failed','err');
+  }
+}
+function renderAll(){
+  syncBrandControls();
+  clearNoteComposer();
+  renderHome();
+  renderTimelineSection();
+  renderProjects();
+  renderDetail();
+  renderNotes();
+}
+function exportData(){
+  const exportedAt=new Date().toISOString();
+  const payload={version:APP_DATA_VERSION,exportedAt,appSettings,umbrellas,projects,yearPlans,notes};
+  const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'}),a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);a.download=`creative-hub-backup-${iso(today)}.json`;a.click();URL.revokeObjectURL(a.href);
+  lastBackup=exportedAt;renderHome();saveCloudNow();showToast('Backup exported')
+}
+function importData(file){const reader=new FileReader();reader.onload=()=>{try{const data=JSON.parse(reader.result);const importedProjects=Array.isArray(data)?data:data?.projects;if(!Array.isArray(importedProjects))throw new Error();if(!Array.isArray(data)&&Array.isArray(data.umbrellas)&&data.umbrellas.length){umbrellas=data.umbrellas.filter(u=>u?.name).map(u=>({name:String(u.name),color:u.color||autoColor(u.name)}))}projects=importedProjects.map(normalizeProject);yearPlans=Array.isArray(data?.yearPlans)?data.yearPlans.map(normalizeYearPlan):yearOverviewSeed();notes=Array.isArray(data?.notes)?data.notes.map(normalizeNote):[];if(data?.appSettings){appSettings={...appSettings,...data.appSettings};applyTheme(appSettings.theme)}if(data?.exportedAt){lastBackup=String(data.exportedAt)}selectedId=projects[0]?.id||null;save();applyTheme(appSettings.theme);syncBrandControls();clearNoteComposer();renderHome();renderHome();renderTimelineSection();renderProjects();renderDetail();renderNotes();showToast('Data imported')}catch(e){showToast('Invalid JSON file')}};reader.readAsText(file)}
+function navigate(delta){if(timelineView==='calendar')selectedMonth=new Date(selectedMonth.getFullYear(),selectedMonth.getMonth()+delta,1);else if(timelineView==='year')selectedYear+=delta;else startDate=addDays(startDate,delta*rangeDays);renderTimelineSection()}
+function goToday(){if(timelineView==='calendar')selectedMonth=new Date(today.getFullYear(),today.getMonth(),1);else if(timelineView==='year')selectedYear=today.getFullYear();else startDate=new Date(today);renderTimelineSection()}
+
+document.querySelectorAll('.tab').forEach(b=>b.addEventListener('click',()=>switchMainView(b.dataset.view)));document.querySelectorAll('[data-timeline-view]').forEach(b=>b.addEventListener('click',()=>setTimelineView(b.dataset.timelineView)));document.querySelectorAll('[data-range]').forEach(b=>b.addEventListener('click',()=>{rangeDays=Number(b.dataset.range);document.querySelectorAll('[data-range]').forEach(x=>x.classList.toggle('active',x===b));renderTimeline()}));document.getElementById('prevBtn').addEventListener('click',()=>navigate(-1));document.getElementById('nextBtn').addEventListener('click',()=>navigate(1));document.getElementById('todayBtn').addEventListener('click',goToday);document.getElementById('brandFilter').addEventListener('change',renderTimelineSection);document.getElementById('newProjectBtn').addEventListener('click',()=>openProjectModal());document.getElementById('addProjectMilestoneBtn').addEventListener('click',()=>addProjectMilestoneRow());document.getElementById('themeToggleBtn').addEventListener('click',toggleTheme);document.getElementById('manageUmbrellasBtn').addEventListener('click',openUmbrellaModal);document.getElementById('newUmbrellaInline').addEventListener('click',openUmbrellaModal);document.getElementById('saveUmbrellaBtn').addEventListener('click',saveUmbrella);document.getElementById('saveProjectBtn').addEventListener('click',saveProject);document.getElementById('deleteProjectBtn').addEventListener('click',deleteProject);document.getElementById('saveMilestoneBtn').addEventListener('click',saveMilestone);document.getElementById('deleteMilestoneBtn').addEventListener('click',deleteMilestone);document.getElementById('saveYearPlanBtn').addEventListener('click',saveYearPlan);document.getElementById('deleteYearPlanBtn').addEventListener('click',deleteYearPlan);document.getElementById('projectSearch').addEventListener('input',renderProjects);document.getElementById('saveNoteBtn').addEventListener('click',saveNote);document.getElementById('clearNoteBtn').addEventListener('click',clearNoteComposer);document.getElementById('notesBrandFilter').addEventListener('change',renderNotes);document.getElementById('notesSort').addEventListener('change',renderNotes);document.getElementById('pickerSearch').addEventListener('input',renderDetail);document.querySelectorAll('[data-close]').forEach(b=>b.addEventListener('click',()=>closeModal(b.dataset.close)));document.querySelectorAll('.modal').forEach(m=>m.addEventListener('click',e=>{if(e.target===m)m.classList.remove('open')}));document.getElementById('exportBtn').addEventListener('click',exportData);document.getElementById('importInput').addEventListener('change',e=>{if(e.target.files[0])importData(e.target.files[0]);e.target.value=''});document.getElementById('projectForm').addEventListener('submit',e=>{e.preventDefault();saveProject()});document.getElementById('milestoneForm').addEventListener('submit',e=>{e.preventDefault();saveMilestone()});document.getElementById('yearPlanForm').addEventListener('submit',e=>{e.preventDefault();saveYearPlan()});
+syncBrandControls();clearNoteComposer();renderHome();renderTimelineSection();renderProjects();renderDetail();renderNotes();
+initSupabase();
+</script>
+</body>
+</html>
