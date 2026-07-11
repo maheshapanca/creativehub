@@ -1,8 +1,8 @@
 window.CREATIVE_HUB_CONFIG = Object.freeze({
-  supabaseUrl: 'https://pqfptqtznwjwfusihquv.supabase.co',
-  supabasePublishableKey: 'sb_publishable__v2I4wLDiSfiB0el1in3FQ_wY0Wvj5L',
+  supabaseUrl: 'https://ciunbeokqipnhelcivat.supabase.co',
+  supabasePublishableKey: 'sb_publishable_hS1nKbBk648ZxpHK4o4ydQ_pvKOtKCN',
   appVersion: 5,
-  ownerEmail: 'GANTI_DENGAN_EMAIL_GOOGLE_KAMU@gmail.com',
+  ownerEmail: 'maheshapanca@gmail.com',
   calendarFunctionName: 'google-calendar',
   tables: Object.freeze({
     umbrellas: 'ch_umbrellas',
