@@ -48,6 +48,7 @@
     transition: background-color var(--transition), color var(--transition);
   }
   [hidden] { display: none !important; }
+.hidden { display: none !important; }
   
   /* Buttons */
   .btn, .mini {
